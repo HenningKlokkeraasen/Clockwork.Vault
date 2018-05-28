@@ -25,6 +25,10 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.IntegrationTests
             await GetInMemSessionOrLoginAsync();
             var jsonList = await _openTidlSession.GetUserPlaylists();
             Console.WriteLine($"Got {jsonList.Items.Length} of {jsonList.TotalNumberOfItems}");
+            foreach (var item in jsonList.Items)
+            {
+                Console.WriteLine(item.Title);
+            }
         }
 
         [Test]
@@ -40,6 +44,14 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.IntegrationTests
         {
             await GetInMemSessionOrLoginAsync();
             var jsonList = await _openTidlSession.GetFavoriteTracks();
+            Console.WriteLine($"Got {jsonList.Items.Length} of {jsonList.TotalNumberOfItems}");
+        }
+
+        [Test]
+        public async Task Can_get_fav_albums()
+        {
+            await GetInMemSessionOrLoginAsync();
+            var jsonList = await _openTidlSession.GetFavoriteAlbums();
             Console.WriteLine($"Got {jsonList.Items.Length} of {jsonList.TotalNumberOfItems}");
         }
 

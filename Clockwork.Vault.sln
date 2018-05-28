@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Vault.Integrations.Tidal.Dao", "Clockwork.Vault.Integrations.Tidal.Dao\Clockwork.Vault.Integrations.Tidal.Dao.csproj", "{B2132870-9C21-492A-A47C-F56804F29675}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{D9FA896E-2F5F-45A3-A093-0630C37DC408}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9FA896E-2F5F-45A3-A093-0630C37DC408}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9FA896E-2F5F-45A3-A093-0630C37DC408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2132870-9C21-492A-A47C-F56804F29675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2132870-9C21-492A-A47C-F56804F29675}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2132870-9C21-492A-A47C-F56804F29675}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2132870-9C21-492A-A47C-F56804F29675}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9F3EB900-6A41-431B-9CCF-853481733AB7} = {95738BBC-77D9-44F0-B619-A0D006FFED32}
 		{D9FA896E-2F5F-45A3-A093-0630C37DC408} = {95738BBC-77D9-44F0-B619-A0D006FFED32}
+		{B2132870-9C21-492A-A47C-F56804F29675} = {95738BBC-77D9-44F0-B619-A0D006FFED32}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63804355-EDE6-4AC1-9338-D29256F8A3D4}
