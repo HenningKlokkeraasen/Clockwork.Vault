@@ -47,15 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\TidalAlbumArtist.cs" />
     <Compile Include="Models\AppGeneratedEntityBase.cs" />
     <Compile Include="Models\TidalMusicalWorkBase.cs" />
     <Compile Include="Models\TidalIntIdBase.cs" />
     <Compile Include="Migrations\VaultConfiguration.cs" />
+    <Compile Include="Models\TidalArtistRelationBase.cs" />
     <Compile Include="Models\TidalPlaylistTrack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\TidalCreator.cs" />
     <Compile Include="Models\TidalArtist.cs" />
     <Compile Include="Models\TidalPlaylist.cs" />
+    <Compile Include="Models\TidalTrackArtist.cs" />
     <Compile Include="Models\TidalAlbum.cs" />
     <Compile Include="Models\TidalTrack.cs" />
     <Compile Include="VaultContext.cs" />

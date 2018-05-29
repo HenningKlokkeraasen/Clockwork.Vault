@@ -1,6 +1,9 @@
 drop table __MigrationHistory;
+drop table TidalPlaylistTracks;
+drop table TidalAlbumArtists;
+drop table TidalTrackArtists;
 drop table TidalPlaylists;
 drop table TidalArtists;
 drop table TidalAlbums;
-drop table TidalCreators;
 drop table TidalTracks;
+drop table TidalCreators;

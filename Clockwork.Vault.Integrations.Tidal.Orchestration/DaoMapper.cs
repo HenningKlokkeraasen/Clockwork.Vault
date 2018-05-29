@@ -87,5 +87,37 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             };
             return dbItem;
         }
+
+        public static TidalArtist MapTidalArtistModelToDao(ArtistModel item)
+        {
+            var dbItem = new TidalArtist
+            {
+                Id = item.Id,
+                Name = item.Name
+            };
+            return dbItem;
+        }
+
+        public static TidalTrackArtist MapTidalTrackArtistDao(TrackModel track, ArtistModel artist)
+        {
+            var dbItem = new TidalTrackArtist
+            {
+                ArtistId = artist.Id,
+                TrackId = track.Id,
+                Type = artist.Type
+            };
+            return dbItem;
+        }
+
+        public static TidalAlbumArtist MapTidalAlbumArtistDao(AlbumModel album, ArtistModel artist)
+        {
+            var dbItem = new TidalAlbumArtist
+            {
+                ArtistId = artist.Id,
+                AlbumId = album.Id,
+                Type = artist.Type
+            };
+            return dbItem;
+        }
     }
 }

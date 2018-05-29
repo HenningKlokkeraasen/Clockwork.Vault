@@ -78,5 +78,51 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 Console.WriteLine($"Inserted album {album.Id} {album.Title}");
             }
         }
+
+        public static void InsertArtist(VaultContext context, TidalArtist artist)
+        {
+            var existingRecord = context.Artists.FirstOrDefault(p => p.Id == artist.Id);
+            if (existingRecord != null)
+            {
+                Console.WriteLine($"Record exists: artist {existingRecord.Id} {artist.Name}");
+            }
+            else
+            {
+                context.Artists.Add(artist);
+                Console.WriteLine($"Inserted artist {artist.Id} {artist.Name}");
+            }
+        }
+
+        public static void InsertTrackArtist(VaultContext context, TidalTrackArtist trackArtist)
+        {
+            var existingRecord = context.TrackArtists
+                .FirstOrDefault(p => p.TrackId == trackArtist.TrackId
+                                     && p.ArtistId == trackArtist.ArtistId);
+            if (existingRecord != null)
+            {
+                Console.WriteLine($"Record exists: track-artist {existingRecord.TrackId} {existingRecord.ArtistId}");
+            }
+            else
+            {
+                context.TrackArtists.Add(trackArtist);
+                Console.WriteLine($"Inserted track-artist {trackArtist.TrackId} {trackArtist.ArtistId}");
+            }
+        }
+
+        public static void InsertAlbumArtist(VaultContext context, TidalAlbumArtist albumArtist)
+        {
+            var existingRecord = context.AlbumArtists
+                .FirstOrDefault(p => p.AlbumId == albumArtist.AlbumId
+                                     && p.ArtistId == albumArtist.ArtistId);
+            if (existingRecord != null)
+            {
+                Console.WriteLine($"Record exists: album-artist {existingRecord.AlbumId} {existingRecord.ArtistId}");
+            }
+            else
+            {
+                context.AlbumArtists.Add(albumArtist);
+                Console.WriteLine($"Inserted album-artist {albumArtist.AlbumId} {albumArtist.ArtistId}");
+            }
+        }
     }
 }

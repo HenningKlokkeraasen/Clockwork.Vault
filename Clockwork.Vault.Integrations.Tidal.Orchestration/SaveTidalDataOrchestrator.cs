@@ -20,6 +20,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             var playlists = MapAndInsertPlaylists(context, playlistsResult.Items);
 
             var insertedAlbums = new List<AlbumModel>();
+            var insertedArtists = new List<ArtistModel>();
 
             foreach (var playlist in playlists)
             {
@@ -33,20 +34,28 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 {
                     if (insertedAlbums.All(a => a.Id != track.Album.Id))
                     {
-                        var albumResult = await TidalIntegrator.GetAlbum(track.Album.Id);
-                        if (albumResult == null)
-                        {
-                            Console.WriteLine($"WARN Could not get album {track.Album.Id} {track.Album.Title} - inserting lesser album model");
-                            albumResult = track.Album;
-                        }
-                        MapAndInsertAlbum(context, albumResult);
+                        var albumResult = await GetAlbumAndMapAndInsert(context, track);
                         insertedAlbums.Add(albumResult);
 
-                        // TODO insert artists
-                        // TODO insert albumArtists
+                        foreach (var albumArtist in albumResult.Artists ?? Enumerable.Empty<ArtistModel>())
+                        {
+                            if (insertedArtists.All(a => a.Id != albumArtist.Id))
+                            {
+                                var artistResult = await GetArtistAndMapAndInsert(context, albumArtist);
+                                insertedArtists.Add(artistResult);
+                            }
+                        }
+                        MapAndInsertAlbumArtists(context, albumResult);
                     }
-                    // TODO insert artists
-                    // TODO insert trackArtists
+                    foreach (var trackArtist in track.Artists)
+                    {
+                        if (insertedArtists.All(a => a.Id != trackArtist.Id))
+                        {
+                            var artistResult = await GetArtistAndMapAndInsert(context, trackArtist);
+                            insertedArtists.Add(artistResult);
+                        }
+                    }
+                    MapAndInsertTrackArtists(context, track);
                 }
             }
         }
@@ -108,6 +117,71 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             context.SaveChanges();
 
             return album;
+        }
+
+        private static TidalArtist MapAndInsertArtist(VaultContext context, ArtistModel result)
+        {
+            var artist = DaoMapper.MapTidalArtistModelToDao(result);
+
+            DbInserter.InsertArtist(context, artist);
+
+            context.SaveChanges();
+
+            return artist;
+        }
+
+        private static async Task<AlbumModel> GetAlbumAndMapAndInsert(VaultContext context, TrackModel track)
+        {
+            var albumResult = await TidalIntegrator.GetAlbum(track.Album.Id);
+            if (albumResult == null)
+            {
+                Console.WriteLine($"WARN Could not get album {track.Album.Id} {track.Album.Title} - inserting lesser album model");
+                albumResult = track.Album;
+            }
+
+            MapAndInsertAlbum(context, albumResult);
+
+            return albumResult;
+        }
+
+        private static async Task<ArtistModel> GetArtistAndMapAndInsert(VaultContext context, ArtistModel trackArtist)
+        {
+            var artistResult = await TidalIntegrator.GetArtist(trackArtist.Id);
+            if (artistResult == null)
+            {
+                Console.WriteLine($"WARN Could not get artist {trackArtist.Id} {trackArtist.Name} - inserting lesser artist model");
+                artistResult = trackArtist;
+            }
+
+            MapAndInsertArtist(context, artistResult);
+
+            return artistResult;
+        }
+
+        private static void MapAndInsertTrackArtists(VaultContext context, TrackModel track)
+        {
+            if (track?.Artists == null)
+                return;
+
+            var trackArtists = track.Artists.Select(i => DaoMapper.MapTidalTrackArtistDao(track, i));
+
+            foreach (var trackArtist in trackArtists)
+                DbInserter.InsertTrackArtist(context, trackArtist);
+
+            context.SaveChanges();
+        }
+
+        private static void MapAndInsertAlbumArtists(VaultContext context, AlbumModel album)
+        {
+            if (album?.Artists == null)
+                return;
+
+            var albumArtists = album.Artists.Select(i => DaoMapper.MapTidalAlbumArtistDao(album, i));
+
+            foreach (var albumArtist in albumArtists)
+                DbInserter.InsertAlbumArtist(context, albumArtist);
+
+            context.SaveChanges();
         }
     }
 }
