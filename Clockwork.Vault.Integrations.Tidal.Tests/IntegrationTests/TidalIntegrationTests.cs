@@ -16,6 +16,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.IntegrationTests
         public async Task Can_login_user()
         {
             await GetInMemSessionOrLoginAsync();
+            Console.WriteLine("Session ID: " + _openTidlSession.SessionId);
+            Console.WriteLine("User ID: " + _openTidlSession.UserId);
             _openTidlSession.LoginResult.SessionId.Should().NotBeEmpty();
         }
 
@@ -63,10 +65,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.IntegrationTests
             Console.WriteLine($"Got {jsonList.Items.Length} of {jsonList.TotalNumberOfItems}");
         }
 
-        private async Task GetInMemSessionOrLoginAsync()
-        {
-            _openTidlSession = _openTidlSession ?? await LoginUserAsync();
-        }
+        private async Task GetInMemSessionOrLoginAsync() 
+            => _openTidlSession = _openTidlSession ?? await LoginUserAsync();
 
         private static Task<OpenTidlSession> LoginUserAsync()
         {
