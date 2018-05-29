@@ -64,5 +64,19 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 Console.WriteLine($"Inserted playlist-track {playlistTrack.PlaylistId} {playlistTrack.TrackId}");
             }
         }
+
+        public static void InsertAlbum(VaultContext context, TidalAlbum album)
+        {
+            var existingRecord = context.Albums.FirstOrDefault(p => p.Id == album.Id);
+            if (existingRecord != null)
+            {
+                Console.WriteLine($"Record exists: album {existingRecord.Id} {album.Title}");
+            }
+            else
+            {
+                context.Albums.Add(album);
+                Console.WriteLine($"Inserted album {album.Id} {album.Title}");
+            }
+        }
     }
 }

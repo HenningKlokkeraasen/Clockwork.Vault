@@ -63,5 +63,29 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             };
             return dbItem;
         }
+
+        public static TidalAlbum MapTidalAlbumModelToDao(AlbumModel item)
+        {
+            var dbItem = new TidalAlbum
+            {
+                Id = item.Id,
+                Title = item.Title,
+                Version = item.Version,
+                ReleaseDate = item.ReleaseDate ?? new DateTime(1900, 1, 1),
+                Type = item.Type,
+                Cover = item.Cover,
+                NumberOfTracks = item.NumberOfTracks,
+                NumberOfVolumes = item.NumberOfVolumes,
+                Duration = item.Duration,
+                Copyright = item.Copyright,
+                StreamReady = item.StreamReady,
+                AllowStreaming = item.AllowStreaming,
+                StreamStartDate = item.StreamStartDate ?? new DateTime(1900, 1, 1),
+                PremiumStreamingOnly = item.PremiumStreamingOnly,
+                Upc = null, // TODO Need updated OpenTidl
+                AudioQuality = null // TODO Need updated OpenTidl
+            };
+            return dbItem;
+        }
     }
 }
