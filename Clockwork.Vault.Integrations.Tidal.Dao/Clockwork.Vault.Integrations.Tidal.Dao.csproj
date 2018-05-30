@@ -63,6 +63,7 @@
     <Compile Include="Models\TidalTrack.cs" />
     <Compile Include="Models\TidalUserFavoriteBase.cs" />
     <Compile Include="Models\TidalUserFavoritePlaylist.cs" />
+    <Compile Include="Models\TidalUserFavoriteTrack.cs" />
     <Compile Include="VaultContext.cs" />
   </ItemGroup>
   <ItemGroup>
