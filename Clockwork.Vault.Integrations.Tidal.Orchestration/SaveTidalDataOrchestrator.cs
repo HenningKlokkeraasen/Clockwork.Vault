@@ -119,7 +119,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         private static void MapAndInsertPlaylistTracks(VaultContext context, IEnumerable<TidalTrack> tracks, TidalPlaylist playlist)
         {
-            var playlistTracks = tracks.Select(i => DaoMapper.MapTidalPlaylistTrackDao(i, playlist));
+            var position = 1;
+            var playlistTracks = tracks.Select(i => DaoMapper.MapTidalPlaylistTrackDao(i, playlist, position++));
 
             foreach (var playlistTrack in playlistTracks)
                 DbInserter.InsertPlaylistTrack(context, playlistTrack);

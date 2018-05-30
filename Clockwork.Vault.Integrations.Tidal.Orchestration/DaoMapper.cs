@@ -55,12 +55,13 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             return dbItem;
         }
 
-        public static TidalPlaylistTrack MapTidalPlaylistTrackDao(TidalTrack track, TidalPlaylist playlist)
+        public static TidalPlaylistTrack MapTidalPlaylistTrackDao(TidalTrack track, TidalPlaylist playlist, int position)
         {
             var dbItem = new TidalPlaylistTrack
             {
                 PlaylistId = playlist.Uuid,
                 TrackId = track.Id,
+                Position = position
             };
             return dbItem;
         }

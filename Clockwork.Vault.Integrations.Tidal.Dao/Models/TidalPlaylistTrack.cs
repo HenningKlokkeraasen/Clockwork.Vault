@@ -7,5 +7,7 @@
 
         public int TrackId { get; set; }
         public TidalTrack Track { get; set; }
+
+        public int Position { get; set; }
     }
 }
