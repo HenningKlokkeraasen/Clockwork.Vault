@@ -44,21 +44,5 @@ namespace Clockwork.Vault.Integrations.Tidal
             }
             return album;
         }
-
-        public static async Task<ArtistModel> GetArtist(int id)
-        {
-            ArtistModel artist;
-            try
-            {
-                artist = await Client.GetArtist(id);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Log.Error(e);
-                return null;
-            }
-            return artist;
-        }
     }
 }
