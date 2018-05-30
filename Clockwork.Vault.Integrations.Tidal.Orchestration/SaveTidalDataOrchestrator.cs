@@ -7,6 +7,7 @@ using Clockwork.Vault.Integrations.Tidal.Dao.Models;
 using log4net;
 using OpenTidl.Methods;
 using OpenTidl.Models;
+using OpenTidl.Models.Base;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 {
@@ -16,11 +17,23 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         public static async Task SavePlaylists(OpenTidlSession session, VaultContext context)
         {
-            var playlistsResult = await session.GetUserPlaylists(5);
+            var playlistsResult = await session.GetUserPlaylists(5);//TODO
+            await SavePlaylists(session, context, playlistsResult.Items);
+        }
 
-            MapAndInsertCreators(context, playlistsResult.Items);
+        public static async Task SaveUserFavPlaylists(OpenTidlSession session, VaultContext context)
+        {
+            var playlistsFavResult = await session.GetFavoritePlaylists(5);//TODO
+            var playlistsResult = playlistsFavResult.Items.Select(i => i.Item).ToList();
+            await SavePlaylists(session, context, playlistsResult);
+            MapAndInsertPlaylistFavorites(context, playlistsFavResult.Items);
+        }
 
-            var playlists = MapAndInsertPlaylists(context, playlistsResult.Items);
+        private static async Task SavePlaylists(OpenTidlSession session, VaultContext context, IList<PlaylistModel> playlistsResult)
+        {
+            MapAndInsertCreators(context, playlistsResult);
+
+            var playlists = MapAndInsertPlaylists(context, playlistsResult);
 
             var insertedAlbums = new List<AlbumModel>();
             var insertedArtists = new List<ArtistModel>();
@@ -48,8 +61,10 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                                 insertedArtists.Add(artistResult);
                             }
                         }
+
                         MapAndInsertAlbumArtists(context, albumResult);
                     }
+
                     foreach (var trackArtist in track.Artists)
                     {
                         if (insertedArtists.All(a => a.Id != trackArtist.Id))
@@ -58,6 +73,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                             insertedArtists.Add(artistResult);
                         }
                     }
+
                     MapAndInsertTrackArtists(context, track);
                 }
             }
@@ -185,6 +201,35 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
             foreach (var albumArtist in albumArtists)
                 DbInserter.InsertAlbumArtist(context, albumArtist);
+
+            context.SaveChanges();
+        }
+        private static void MapAndInsertAlbumFavorites(VaultContext context, IEnumerable<JsonListItem<AlbumModel>> jsonListItems)
+        {
+            var favs = jsonListItems.Select(DaoMapper.MapTidalAlbumFavDao);
+
+            foreach (var fav in favs)
+                DbInserter.InsertFavAlbum(context, fav);
+
+            context.SaveChanges();
+        }
+
+        private static void MapAndInsertTrackFavorites(VaultContext context, IEnumerable<JsonListItem<TrackModel>> jsonListItems)
+        {
+            var favs = jsonListItems.Select(DaoMapper.MapTidalTrackFavDao);
+
+            foreach (var fav in favs)
+                DbInserter.InsertFavTrack(context, fav);
+
+            context.SaveChanges();
+        }
+
+        private static void MapAndInsertArtistFavorites(VaultContext context, IEnumerable<JsonListItem<ArtistModel>> jsonListItems)
+        {
+            var favs = jsonListItems.Select(DaoMapper.MapTidalArtistFavDao);
+
+            foreach (var fav in favs)
+                DbInserter.InsertFavArtist(context, fav);
 
             context.SaveChanges();
         }

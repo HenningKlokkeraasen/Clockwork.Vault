@@ -25,11 +25,21 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
         [Test]
         public async Task SavePlaylists()
         {
-            Log.Info("Starting");
+            Log.Info("Starting SavePlaylists");
 
             GetInMemContextOrEstablish();
             await GetInMemSessionOrLoginAsync();
             await SaveTidalDataOrchestrator.SavePlaylists(_openTidlSession, _vaultContext);
+        }
+
+        [Test]
+        public async Task SaveUserFavPlaylists()
+        {
+            Log.Info("Starting SaveUserFavPlaylists");
+
+            GetInMemContextOrEstablish();
+            await GetInMemSessionOrLoginAsync();
+            await SaveTidalDataOrchestrator.SaveUserFavPlaylists(_openTidlSession, _vaultContext);
         }
 
         private void GetInMemContextOrEstablish() => _vaultContext = new VaultContext();

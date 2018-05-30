@@ -1,6 +1,7 @@
 ﻿using System;
 using Clockwork.Vault.Integrations.Tidal.Dao.Models;
 using OpenTidl.Models;
+using OpenTidl.Models.Base;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 {
@@ -116,6 +117,16 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 ArtistId = artist.Id,
                 AlbumId = album.Id,
                 Type = artist.Type
+            };
+            return dbItem;
+        }
+
+        public static TidalUserFavoritePlaylist MapTidalPlaylistFavDao(JsonListItem<PlaylistModel> jsonListItem)
+        {
+            var dbItem = new TidalUserFavoritePlaylist
+            {
+                PlaylistId = jsonListItem.Item.Uuid,
+                Created = jsonListItem.Created ?? new DateTime(1900, 1, 1)
             };
             return dbItem;
         }
