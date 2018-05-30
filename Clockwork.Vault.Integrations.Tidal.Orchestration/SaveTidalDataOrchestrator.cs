@@ -15,23 +15,23 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
     {
         private static readonly ILog Log = LogManager.GetLogger("Default");
 
-        public static async Task SavePlaylists(OpenTidlSession session, VaultContext context)
+        public static async Task SavePlaylists(OpenTidlSession session, VaultContext context, int limit = 9999)
         {
-            var playlistsResult = await session.GetUserPlaylists(10);//TODO
+            var playlistsResult = await session.GetUserPlaylists(limit);
             await SavePlaylistsAndTracksAndAlbumsAndArtists(session, context, playlistsResult.Items);
         }
 
-        public static async Task SaveUserFavPlaylists(OpenTidlSession session, VaultContext context)
+        public static async Task SaveUserFavPlaylists(OpenTidlSession session, VaultContext context, int limit = 9999)
         {
-            var favsResult = await session.GetFavoritePlaylists(10);//TODO
+            var favsResult = await session.GetFavoritePlaylists(limit);
             var items = favsResult.Items.Select(i => i.Item).ToList();
             await SavePlaylistsAndTracksAndAlbumsAndArtists(session, context, items);
             MapAndInsertPlaylistFavorites(context, favsResult.Items);
         }
 
-        public static async Task SaveUserFavTracks(OpenTidlSession session, VaultContext context)
+        public static async Task SaveUserFavTracks(OpenTidlSession session, VaultContext context, int limit = 9999)
         {
-            var favsResult = await session.GetFavoriteTracks(10);//TODO
+            var favsResult = await session.GetFavoriteTracks(limit);
             var items = favsResult.Items.Select(i => i.Item).ToList();
 
             var tracks = MapAndInsertTracks(context, items);
@@ -43,9 +43,9 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             MapAndInsertTrackFavorites(context, favsResult.Items);
         }
 
-        public static async Task SaveUserFavAlbums(OpenTidlSession session, VaultContext context)
+        public static async Task SaveUserFavAlbums(OpenTidlSession session, VaultContext context, int limit = 9999)
         {
-            var favsResult = await session.GetFavoriteAlbums(10);//TODO
+            var favsResult = await session.GetFavoriteAlbums(limit);
             var items = favsResult.Items.Select(i => i.Item).ToList();
 
             var insertedArtists = new List<ArtistModel>();
@@ -56,9 +56,9 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             MapAndInsertAlbumFavorites(context, favsResult.Items);
         }
 
-        public static async Task SaveUserFavArtists(OpenTidlSession session, VaultContext context)
+        public static async Task SaveUserFavArtists(OpenTidlSession session, VaultContext context, int limit = 9999)
         {
-            var favsResult = await session.GetFavoriteArtists(10);//TODO
+            var favsResult = await session.GetFavoriteArtists(limit);
             var items = favsResult.Items.Select(i => i.Item).ToList();
 
             foreach (var item in items)
