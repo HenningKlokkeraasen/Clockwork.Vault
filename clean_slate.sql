@@ -2,6 +2,7 @@ drop table __MigrationHistory;
 drop table TidalPlaylistTracks;
 drop table TidalAlbumArtists;
 drop table TidalTrackArtists;
+drop table TidalUserFavoriteAlbums;
 drop table TidalUserFavoritePlaylists;
 drop table TidalUserFavoriteTracks;
 drop table TidalPlaylists;

@@ -140,6 +140,21 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 Log.Info($"Inserted playlist-fav {fav.PlaylistId}");
             }
         }
+
+        public static void InsertFavAlbum(VaultContext context, TidalUserFavoriteAlbum fav)
+        {
+            var existingRecord = context.FavoriteAlbums.FirstOrDefault(p => p.AlbumId == fav.AlbumId);
+            if (existingRecord != null)
+            {
+                Log.Info($"Record exists: album-fav {existingRecord.AlbumId}");
+            }
+            else
+            {
+                context.FavoriteAlbums.Add(fav);
+                Log.Info($"Inserted album-fav {fav.AlbumId}");
+            }
+        }
+
         public static void InsertFavTrack(VaultContext context, TidalUserFavoriteTrack fav)
         {
             var existingRecord = context.FavoriteTracks.FirstOrDefault(p => p.TrackId == fav.TrackId);

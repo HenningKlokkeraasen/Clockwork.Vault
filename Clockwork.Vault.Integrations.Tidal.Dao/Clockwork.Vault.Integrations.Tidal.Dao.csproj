@@ -61,6 +61,7 @@
     <Compile Include="Models\TidalTrackArtist.cs" />
     <Compile Include="Models\TidalAlbum.cs" />
     <Compile Include="Models\TidalTrack.cs" />
+    <Compile Include="Models\TidalUserFavoriteAlbum.cs" />
     <Compile Include="Models\TidalUserFavoriteBase.cs" />
     <Compile Include="Models\TidalUserFavoritePlaylist.cs" />
     <Compile Include="Models\TidalUserFavoriteTrack.cs" />
