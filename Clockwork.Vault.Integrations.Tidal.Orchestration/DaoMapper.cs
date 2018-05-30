@@ -151,5 +151,15 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             };
             return dbItem;
         }
+
+        public static TidalUserFavoriteArtist MapTidalArtistFavDao(JsonListItem<ArtistModel> jsonListItem)
+        {
+            var dbItem = new TidalUserFavoriteArtist
+            {
+                ArtistId = jsonListItem.Item.Id,
+                Created = jsonListItem.Created ?? new DateTime(1900, 1, 1)
+            };
+            return dbItem;
+        }
     }
 }

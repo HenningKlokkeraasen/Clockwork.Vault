@@ -62,6 +62,16 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
             await SaveTidalDataOrchestrator.SaveUserFavTracks(_openTidlSession, _vaultContext);
         }
 
+        [Test]
+        public async Task SaveUserFavArtists()
+        {
+            Log.Info("Starting SaveUserFavArtists");
+
+            GetInMemContextOrEstablish();
+            await GetInMemSessionOrLoginAsync();
+            await SaveTidalDataOrchestrator.SaveUserFavArtists(_openTidlSession, _vaultContext);
+        }
+
         private void GetInMemContextOrEstablish() => _vaultContext = new VaultContext();
 
         private async Task GetInMemSessionOrLoginAsync() 

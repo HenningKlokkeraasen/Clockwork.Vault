@@ -65,6 +65,19 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             MapAndInsertAlbumFavorites(context, favsResult.Items);
         }
 
+        public static async Task SaveUserFavArtists(OpenTidlSession session, VaultContext context)
+        {
+            var favsResult = await session.GetFavoriteArtists(5);//TODO
+            var items = favsResult.Items.Select(i => i.Item).ToList();
+
+            foreach (var item in items)
+            {
+                MapAndInsertArtist(context, item);
+            }
+
+            MapAndInsertArtistFavorites(context, favsResult.Items);
+        }
+
         private static async Task SavePlaylists(OpenTidlSession session, VaultContext context, IList<PlaylistModel> playlistsItems)
         {
             MapAndInsertCreators(context, playlistsItems);
