@@ -117,7 +117,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
             var albumResult = await GetAlbumAndMapAndInsert(context, item);
 
-            foreach (var albumArtist in item.Artists ?? Enumerable.Empty<ArtistModel>())
+            foreach (var albumArtist in albumResult.Artists ?? Enumerable.Empty<ArtistModel>())
                 SaveArtist(context, insertedArtists, albumArtist);
 
             MapAndInsertAlbumArtists(context, albumResult);
