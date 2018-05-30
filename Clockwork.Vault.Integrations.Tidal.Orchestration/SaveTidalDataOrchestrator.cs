@@ -172,11 +172,21 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
         {
             var tracks = result.Select(DaoMapper.MapTidalTrackModelToDao).ToList();
 
-            tracks.ForEach(t => DbInserter.InsertTrack(context, t));
+            var trackGroups = tracks.GroupBy(t => t.Id).ToList();
+
+            trackGroups.Where(group => group.Count() > 1)
+                .ToList()
+                .ForEach(group => Log.Warn($"Duplicate track {group.Key} {group.First().Title}"));
+            
+            var distinctTracks = trackGroups
+                .Select(group => group.First())
+                .ToList();
+
+            distinctTracks.ForEach(t => DbInserter.InsertTrack(context, t));
 
             context.SaveChanges();
 
-            return tracks;
+            return distinctTracks;
         }
 
         private static void MapAndInsertPlaylistTracks(VaultContext context, IEnumerable<TidalTrack> tracks, TidalPlaylist playlist)
