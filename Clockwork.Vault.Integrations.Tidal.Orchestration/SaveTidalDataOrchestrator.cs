@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Clockwork.Vault.Integrations.Tidal.Dao;
 using Clockwork.Vault.Integrations.Tidal.Dao.Models;
+using log4net;
 using OpenTidl.Methods;
 using OpenTidl.Models;
 
@@ -11,6 +12,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 {
     public static class SaveTidalDataOrchestrator
     {
+        private static readonly ILog Log = LogManager.GetLogger("Default");
+
         public static async Task SavePlaylists(OpenTidlSession session, VaultContext context)
         {
             var playlistsResult = await session.GetUserPlaylists(5);
@@ -135,6 +138,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             var albumResult = await TidalIntegrator.GetAlbum(track.Album.Id);
             if (albumResult == null)
             {
+                Log.Warn($"Could not get album {track.Album.Id} {track.Album.Title} - inserting lesser album model");
                 Console.WriteLine($"WARN Could not get album {track.Album.Id} {track.Album.Title} - inserting lesser album model");
                 albumResult = track.Album;
             }
@@ -149,6 +153,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             var artistResult = await TidalIntegrator.GetArtist(trackArtist.Id);
             if (artistResult == null)
             {
+                Log.Warn($"WARN Could not get artist {trackArtist.Id} {trackArtist.Name} - inserting lesser artist model");
                 Console.WriteLine($"WARN Could not get artist {trackArtist.Id} {trackArtist.Name} - inserting lesser artist model");
                 artistResult = trackArtist;
             }

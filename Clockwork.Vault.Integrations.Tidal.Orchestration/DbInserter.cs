@@ -1,23 +1,25 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Clockwork.Vault.Integrations.Tidal.Dao;
 using Clockwork.Vault.Integrations.Tidal.Dao.Models;
+using log4net;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 {
     public static class DbInserter
     {
+        private static readonly ILog Log = LogManager.GetLogger("Default");
+
         public static void InsertCreator(VaultContext context, TidalCreator creator)
         {
             var existingRecord = context.Creators.FirstOrDefault(p => p.Id == creator.Id);
             if (existingRecord != null)
             {
-                Console.WriteLine($"Record exists: creator {existingRecord.Id}");
+                Log.Info($"Record exists: creator {existingRecord.Id}");
             }
             else
             {
                 context.Creators.Add(creator);
-                Console.WriteLine($"Inserted creator {creator.Id}");
+                Log.Info($"Inserted creator {creator.Id}");
             }
         }
 
@@ -26,12 +28,12 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             var existingRecord = context.Playlists.FirstOrDefault(p => p.Uuid == playlist.Uuid);
             if (existingRecord != null)
             {
-                Console.WriteLine($"Record exists: playlist {existingRecord.Uuid} {existingRecord.Title}");
+                Log.Info($"Record exists: playlist {existingRecord.Uuid} {existingRecord.Title}");
             }
             else
             {
                 context.Playlists.Add(playlist);
-                Console.WriteLine($"Inserted playlist {playlist.Uuid} {playlist.Title}");
+                Log.Info($"Inserted playlist {playlist.Uuid} {playlist.Title}");
             }
         }
 
@@ -40,12 +42,12 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             var existingRecord = context.Tracks.FirstOrDefault(p => p.Id == track.Id);
             if (existingRecord != null)
             {
-                Console.WriteLine($"Record exists: track {existingRecord.Id} {track.Title}");
+                Log.Info($"Record exists: track {existingRecord.Id} {track.Title}");
             }
             else
             {
                 context.Tracks.Add(track);
-                Console.WriteLine($"Inserted track {track.Id} {track.Title}");
+                Log.Info($"Inserted track {track.Id} {track.Title}");
             }
         }
 
@@ -56,12 +58,12 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                                      && p.PlaylistId == playlistTrack.PlaylistId);
             if (existingRecord != null)
             {
-                Console.WriteLine($"Record exists: playlist-track {existingRecord.PlaylistId} {existingRecord.TrackId}");
+                Log.Info($"Record exists: playlist-track {existingRecord.PlaylistId} {existingRecord.TrackId}");
             }
             else
             {
                 context.PlaylistTracks.Add(playlistTrack);
-                Console.WriteLine($"Inserted playlist-track {playlistTrack.PlaylistId} {playlistTrack.TrackId}");
+                Log.Info($"Inserted playlist-track {playlistTrack.PlaylistId} {playlistTrack.TrackId}");
             }
         }
 
@@ -70,12 +72,12 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             var existingRecord = context.Albums.FirstOrDefault(p => p.Id == album.Id);
             if (existingRecord != null)
             {
-                Console.WriteLine($"Record exists: album {existingRecord.Id} {album.Title}");
+                Log.Info($"Record exists: album {existingRecord.Id} {album.Title}");
             }
             else
             {
                 context.Albums.Add(album);
-                Console.WriteLine($"Inserted album {album.Id} {album.Title}");
+                Log.Info($"Inserted album {album.Id} {album.Title}");
             }
         }
 
@@ -84,12 +86,12 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             var existingRecord = context.Artists.FirstOrDefault(p => p.Id == artist.Id);
             if (existingRecord != null)
             {
-                Console.WriteLine($"Record exists: artist {existingRecord.Id} {artist.Name}");
+                Log.Info($"Record exists: artist {existingRecord.Id} {artist.Name}");
             }
             else
             {
                 context.Artists.Add(artist);
-                Console.WriteLine($"Inserted artist {artist.Id} {artist.Name}");
+                Log.Info($"Inserted artist {artist.Id} {artist.Name}");
             }
         }
 
@@ -100,12 +102,12 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                                      && p.ArtistId == trackArtist.ArtistId);
             if (existingRecord != null)
             {
-                Console.WriteLine($"Record exists: track-artist {existingRecord.TrackId} {existingRecord.ArtistId}");
+                Log.Info($"Record exists: track-artist {existingRecord.TrackId} {existingRecord.ArtistId}");
             }
             else
             {
                 context.TrackArtists.Add(trackArtist);
-                Console.WriteLine($"Inserted track-artist {trackArtist.TrackId} {trackArtist.ArtistId}");
+                Log.Info($"Inserted track-artist {trackArtist.TrackId} {trackArtist.ArtistId}");
             }
         }
 
@@ -116,12 +118,12 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                                      && p.ArtistId == albumArtist.ArtistId);
             if (existingRecord != null)
             {
-                Console.WriteLine($"Record exists: album-artist {existingRecord.AlbumId} {existingRecord.ArtistId}");
+                Log.Info($"Record exists: album-artist {existingRecord.AlbumId} {existingRecord.ArtistId}");
             }
             else
             {
                 context.AlbumArtists.Add(albumArtist);
-                Console.WriteLine($"Inserted album-artist {albumArtist.AlbumId} {albumArtist.ArtistId}");
+                Log.Info($"Inserted album-artist {albumArtist.AlbumId} {albumArtist.ArtistId}");
             }
         }
     }

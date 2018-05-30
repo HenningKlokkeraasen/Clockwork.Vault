@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Clockwork.Vault.Integrations.Tidal.Dao;
 using Clockwork.Vault.Integrations.Tidal.Orchestration;
+using log4net;
+using log4net.Config;
 using NUnit.Framework;
 using OpenTidl.Methods;
 
@@ -13,9 +15,18 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
         private OpenTidlSession _openTidlSession;
         private VaultContext _vaultContext;
 
+        private static readonly ILog Log = LogManager.GetLogger("Default");
+
+        public SaveDataTests()
+        {
+            XmlConfigurator.Configure();
+        }
+
         [Test]
         public async Task SavePlaylists()
         {
+            Log.Info("Starting");
+
             GetInMemContextOrEstablish();
             await GetInMemSessionOrLoginAsync();
             await SaveTidalDataOrchestrator.SavePlaylists(_openTidlSession, _vaultContext);

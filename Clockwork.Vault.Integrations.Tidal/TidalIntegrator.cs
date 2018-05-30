@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using log4net;
 using OpenTidl;
 using OpenTidl.Methods;
 using OpenTidl.Models;
@@ -9,6 +10,8 @@ namespace Clockwork.Vault.Integrations.Tidal
     public static class TidalIntegrator
     {
         private static readonly OpenTidlClient Client = new OpenTidlClient(ClientConfiguration.Default);
+
+        private static readonly ILog Log = LogManager.GetLogger("Default");
 
         public static async Task<OpenTidlSession> LoginUserAsync(string username, string password)
         {
@@ -20,6 +23,7 @@ namespace Clockwork.Vault.Integrations.Tidal
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                Log.Error(e);
                 return null;
             }
             return session;
@@ -35,6 +39,7 @@ namespace Clockwork.Vault.Integrations.Tidal
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                Log.Error(e);
                 return null;
             }
             return album;
@@ -50,6 +55,7 @@ namespace Clockwork.Vault.Integrations.Tidal
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                Log.Error(e);
                 return null;
             }
             return artist;
