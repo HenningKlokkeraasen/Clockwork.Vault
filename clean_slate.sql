@@ -1,0 +1,13 @@
+drop table __MigrationHistory;
+drop table TidalPlaylistTracks;
+drop table TidalAlbumArtists;
+drop table TidalTrackArtists;
+drop table TidalUserFavoriteAlbums;
+drop table TidalUserFavoriteArtists;
+drop table TidalUserFavoritePlaylists;
+drop table TidalUserFavoriteTracks;
+drop table TidalPlaylists;
+drop table TidalArtists;
+drop table TidalAlbums;
+drop table TidalTracks;
+drop table TidalCreators;
