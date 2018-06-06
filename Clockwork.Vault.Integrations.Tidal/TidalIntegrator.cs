@@ -4,6 +4,7 @@ using log4net;
 using OpenTidl;
 using OpenTidl.Methods;
 using OpenTidl.Models;
+using OpenTidl.Models.Base;
 
 namespace Clockwork.Vault.Integrations.Tidal
 {
@@ -43,6 +44,23 @@ namespace Clockwork.Vault.Integrations.Tidal
                 return null;
             }
             return album;
+        }
+
+        public static async Task<JsonList<TrackModel>> GetAlbumTracks(int albumId)
+        {
+            JsonList<TrackModel> tracks;
+            try
+            {
+                tracks = await Client.GetAlbumTracks(albumId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Log.Error(e);
+                return null;
+            }
+
+            return tracks;
         }
     }
 }

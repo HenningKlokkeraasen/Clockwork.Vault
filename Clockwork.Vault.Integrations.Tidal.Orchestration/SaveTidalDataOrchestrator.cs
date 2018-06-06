@@ -53,6 +53,18 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             foreach (var item in items)
                 SaveAlbumAndArtists(context, insertedArtists, item);
 
+            foreach (var item in items)
+            {
+                var tracks = await TidalIntegrator.GetAlbumTracks(item.Id);
+                if (tracks == null)
+                {
+                    Console.WriteLine($"Could not get album tracks for album {item.Title} ({item.Id})");
+                    Log.Error($"Could not get album tracks for album {item.Title} ({item.Id})");
+                    continue;
+                }
+                MapAndInsertTracks(context, tracks.Items);
+            }
+
             MapAndInsertAlbumFavorites(context, favsResult.Items);
         }
 
@@ -117,6 +129,10 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
             var albumResult = await GetAlbumAndMapAndInsert(context, item);
 
+            if (albumResult.Artists == null || !albumResult.Artists.Any())
+            {
+                //TODO
+            }
             foreach (var albumArtist in albumResult.Artists ?? Enumerable.Empty<ArtistModel>())
                 SaveArtist(context, insertedArtists, albumArtist);
 
@@ -127,7 +143,11 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
         private static void SaveAlbumAndArtists(VaultContext context, ICollection<ArtistModel> insertedArtists, AlbumModel item)
         {
             MapAndInsertAlbum(context, item);
-            
+
+            if (item.Artists == null || !item.Artists.Any())
+            {
+                //TODO
+            }
             foreach (var albumArtist in item.Artists ?? Enumerable.Empty<ArtistModel>())
                 SaveArtist(context, insertedArtists, albumArtist);
 
