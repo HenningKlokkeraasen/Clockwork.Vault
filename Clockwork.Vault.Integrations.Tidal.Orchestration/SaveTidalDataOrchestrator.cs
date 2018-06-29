@@ -123,11 +123,17 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             var existingRecord = context.Albums.FirstOrDefault(p => p.Id == item.Id);
             if (existingRecord != null)
             {
-                Log.Info($"Record exists: album {item.Id} {item.Title} - will not get album or insert album or album artists");
-                return null;
+                Log.Info($"Record exists: album {item.Id} {item.Title}");
+                if (existingRecord.Upc != null)
+                {
+                    Log.Info("    album has UPC - will not get album or insert album or album artists");
+                    return null;
+                }
             }
 
             var albumResult = await GetAlbumAndMapAndInsert(context, item);
+            if (albumResult == null)
+                return null;
 
             if (albumResult.Artists == null || !albumResult.Artists.Any())
             {
@@ -202,7 +208,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 .Select(group => group.First())
                 .ToList();
 
-            distinctTracks.ForEach(t => DbInserter.InsertTrack(context, t));
+            distinctTracks.ForEach(t => DbInserter.UpsertTrack(context, t));
 
             context.SaveChanges();
 
@@ -224,7 +230,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
         {
             var album = DaoMapper.MapTidalAlbumModelToDao(result);
 
-            DbInserter.InsertAlbum(context, album);
+            DbInserter.UpsertAlbum(context, album);
 
             context.SaveChanges();
 
@@ -248,8 +254,11 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: album {existingRecord.Id} {lesserAlbumModel.Title}");
-                Log.Info("Will not get album");
-                return null;
+                if (existingRecord.Upc != null)
+                {
+                    Log.Info("    album has UPC - will not get album or insert album or album artists");
+                    return null;
+                }
             }
             
             var albumResult = await TidalIntegrator.GetAlbum(lesserAlbumModel.Id);
