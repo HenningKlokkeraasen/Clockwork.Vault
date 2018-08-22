@@ -39,8 +39,9 @@ namespace Clockwork.Vault.Integrations.Tidal
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                Log.Error(e);
+                var errorMessage = e.InnerException?.Message ?? e.Message;
+                Console.WriteLine(errorMessage);
+                Log.Error(errorMessage);
                 return null;
             }
             return album;
@@ -55,12 +56,30 @@ namespace Clockwork.Vault.Integrations.Tidal
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                Log.Error(e);
+                var errorMessage = e.InnerException?.Message ?? e.Message;
+                Console.WriteLine(errorMessage);
+                Log.Error(errorMessage);
                 return null;
             }
 
             return tracks;
+        }
+
+        public static async Task<TrackModel> GetTrack(int id)
+        {
+            TrackModel track;
+            try
+            {
+                track = await Client.GetTrack(id);
+            }
+            catch (Exception e)
+            {
+                var errorMessage = e.InnerException?.Message ?? e.Message;
+                Console.WriteLine(errorMessage);
+                Log.Error(errorMessage);
+                return null;
+            }
+            return track;
         }
     }
 }

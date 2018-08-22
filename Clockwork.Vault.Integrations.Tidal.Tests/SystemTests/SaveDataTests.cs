@@ -72,6 +72,32 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
             await SaveTidalDataOrchestrator.SaveUserFavArtists(_openTidlSession, _vaultContext);
         }
 
+        [Test]
+        public async Task EnsureAlbumUpc()
+        {
+            Log.Info("Starting Ensure Album UPC");
+            GetInMemContextOrEstablish();
+            await GetInMemSessionOrLoginAsync();
+            var iterationSettings = new IterationSettings
+            {
+                SleepTimeInSeconds = 1
+            };
+            await SaveTidalDataOrchestrator.EnsureAlbumUpc(_vaultContext, iterationSettings);
+        }
+
+        [Test]
+        public async Task EnsureTrackIsrc()
+        {
+            Log.Info("Starting Ensure Track ISRC");
+            GetInMemContextOrEstablish();
+            await GetInMemSessionOrLoginAsync();
+            var iterationSettings = new IterationSettings
+            {
+                SleepTimeInSeconds = 1
+            };
+            await SaveTidalDataOrchestrator.EnsureTrackIsrc(_vaultContext, iterationSettings);
+        }
+
         private void GetInMemContextOrEstablish() => _vaultContext = new VaultContext();
 
         private async Task GetInMemSessionOrLoginAsync() 

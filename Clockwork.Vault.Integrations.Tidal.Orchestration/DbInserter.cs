@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using Clockwork.Vault.Integrations.Tidal.Dao;
 using Clockwork.Vault.Integrations.Tidal.Dao.Models;
 using log4net;
@@ -37,18 +38,30 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
         }
 
-        public static void InsertTrack(VaultContext context, TidalTrack track)
+        public static void UpsertTrack(VaultContext context, TidalTrack track)
         {
             var existingRecord = context.Tracks.FirstOrDefault(p => p.Id == track.Id);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: track {existingRecord.Id} {track.Title}");
+                UpdateFields(context, track, existingRecord);
             }
             else
             {
                 context.Tracks.Add(track);
                 Log.Info($"Inserted track {track.Id} {track.Title}");
             }
+        }
+
+        /// <summary>
+        /// Updates the fields ISRC and AudioQualtiy
+        /// </summary>
+        public static void UpdateFields(DbContext context, TidalTrack track, TidalTrack existingRecord)
+        {
+            existingRecord.Isrc = track.Isrc;
+            existingRecord.AudioQuality = track.AudioQuality;
+            context.SaveChanges();
+            Log.Info($"    Updated fields ISRC and AudioQuality for track {existingRecord.Id} {existingRecord.Title}");
         }
 
         public static void InsertPlaylistTrack(VaultContext context, TidalPlaylistTrack playlistTrack)
@@ -67,18 +80,30 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
         }
 
-        public static void InsertAlbum(VaultContext context, TidalAlbum album)
+        public static void UpsertAlbum(VaultContext context, TidalAlbum album)
         {
             var existingRecord = context.Albums.FirstOrDefault(p => p.Id == album.Id);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: album {existingRecord.Id} {album.Title}");
+                UpdateFields(context, album, existingRecord);
             }
             else
             {
                 context.Albums.Add(album);
                 Log.Info($"Inserted album {album.Id} {album.Title}");
             }
+        }
+
+        /// <summary>
+        /// Updates the fields UPC and AudioQualtiy
+        /// </summary>
+        public static void UpdateFields(DbContext context, TidalAlbum album, TidalAlbum existingRecord)
+        {
+            existingRecord.Upc = album.Upc;
+            existingRecord.AudioQuality = album.AudioQuality;
+            context.SaveChanges();
+            Log.Info($"    Updated fields UPC and AudioQuality for album {existingRecord.Id} {existingRecord.Title}");
         }
 
         public static void InsertArtist(VaultContext context, TidalArtist artist)

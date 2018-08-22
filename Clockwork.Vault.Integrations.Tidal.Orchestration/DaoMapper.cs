@@ -49,8 +49,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 AllowStreaming = item.AllowStreaming,
                 StreamStartDate = item.StreamStartDate ?? new DateTime(1900, 1, 1),
                 PremiumStreamingOnly = item.PremiumStreamingOnly,
-                Isrc = null, // TODO Need updated OpenTidl
-                AudioQuality = null // TODO Need updated OpenTidl
+                Isrc = item.Isrc,
+                AudioQuality = item.AudioQuality
             };
             return dbItem;
         }
@@ -84,8 +84,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 AllowStreaming = item.AllowStreaming,
                 StreamStartDate = item.StreamStartDate ?? new DateTime(1900, 1, 1),
                 PremiumStreamingOnly = item.PremiumStreamingOnly,
-                Upc = null, // TODO Need updated OpenTidl
-                AudioQuality = null // TODO Need updated OpenTidl
+                Upc = item.Upc,
+                AudioQuality = item.AudioQuality
             };
             return dbItem;
         }
