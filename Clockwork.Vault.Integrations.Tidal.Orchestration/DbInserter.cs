@@ -56,7 +56,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
         /// <summary>
         /// Updates the fields ISRC and AudioQualtiy
         /// </summary>
-        private static void UpdateFields(DbContext context, TidalTrack track, TidalTrack existingRecord)
+        public static void UpdateFields(DbContext context, TidalTrack track, TidalTrack existingRecord)
         {
             existingRecord.Isrc = track.Isrc;
             existingRecord.AudioQuality = track.AudioQuality;
@@ -98,7 +98,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
         /// <summary>
         /// Updates the fields UPC and AudioQualtiy
         /// </summary>
-        private static void UpdateFields(DbContext context, TidalAlbum album, TidalAlbum existingRecord)
+        public static void UpdateFields(DbContext context, TidalAlbum album, TidalAlbum existingRecord)
         {
             existingRecord.Upc = album.Upc;
             existingRecord.AudioQuality = album.AudioQuality;

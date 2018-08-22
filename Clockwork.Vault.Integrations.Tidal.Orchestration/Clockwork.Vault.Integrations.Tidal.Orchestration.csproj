@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="DbInserter.cs" />
     <Compile Include="DaoMapper.cs" />
+    <Compile Include="IterationSettings.cs" />
     <Compile Include="SaveTidalDataOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
