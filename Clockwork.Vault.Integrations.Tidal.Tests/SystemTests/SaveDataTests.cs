@@ -10,6 +10,7 @@ using OpenTidl.Methods;
 namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
 {
     [TestFixture]
+    [Ignore("Integration tests")]
     public class SaveDataTests
     {
         private OpenTidlSession _openTidlSession;
