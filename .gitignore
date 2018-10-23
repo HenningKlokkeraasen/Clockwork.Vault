@@ -5,6 +5,9 @@
 **/App.Release.config
 **/App.config
 !**/Configurations/App.config
+**/Connectionstrings.Debug.config
+**/Connectionstrings.config
+!**/Configurations/Connectionstrings.config
 
 
 ## Ignore Visual Studio temporary files, build results, and

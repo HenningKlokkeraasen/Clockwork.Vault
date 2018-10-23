@@ -99,6 +99,7 @@
       <DependentUpon>App.config</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Clockwork.Vault.Core\Clockwork.Vault.Core.csproj">
