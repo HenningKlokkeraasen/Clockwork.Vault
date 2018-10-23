@@ -3,6 +3,6 @@
     public class TidalUserFavoritePlaylist : TidalUserFavoriteBase
     {
         public string PlaylistId { get; set; }
-        public TidalPlaylist Playlist { get; set; }
+        public virtual TidalPlaylist Playlist { get; set; }
     }
 }

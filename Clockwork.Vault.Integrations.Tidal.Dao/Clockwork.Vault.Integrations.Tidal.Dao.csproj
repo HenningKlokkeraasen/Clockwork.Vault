@@ -49,11 +49,13 @@
   <ItemGroup>
     <Compile Include="Models\TidalAlbumArtist.cs" />
     <Compile Include="Models\AppGeneratedEntityBase.cs" />
+    <Compile Include="Models\TidalAlbumTrack.cs" />
     <Compile Include="Models\TidalMusicalWorkBase.cs" />
     <Compile Include="Models\TidalIntIdBase.cs" />
     <Compile Include="Migrations\VaultConfiguration.cs" />
     <Compile Include="Models\TidalArtistRelationBase.cs" />
     <Compile Include="Models\TidalPlaylistTrack.cs" />
+    <Compile Include="Models\TidalTrackRelationBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\TidalCreator.cs" />
     <Compile Include="Models\TidalArtist.cs" />

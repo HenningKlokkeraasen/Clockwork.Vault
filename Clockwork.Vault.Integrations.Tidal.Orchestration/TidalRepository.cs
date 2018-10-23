@@ -5,11 +5,11 @@ using Clockwork.Vault.Integrations.Tidal.Dao.Models;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 {
-    public class TidalOrchestrator
+    public class TidalRepository
     {
         private readonly VaultContext _vaultContext;
 
-        public TidalOrchestrator()
+        public TidalRepository()
         {
             _vaultContext = new VaultContext();
         }

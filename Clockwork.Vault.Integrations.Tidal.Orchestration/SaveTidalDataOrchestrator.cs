@@ -55,16 +55,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 SaveAlbumAndArtists(context, insertedArtists, item);
 
             foreach (var item in items)
-            {
-                var tracks = await TidalIntegrator.GetAlbumTracks(item.Id);
-                if (tracks == null)
-                {
-                    Console.WriteLine($"Could not get album tracks for album {item.Title} ({item.Id})");
-                    Log.Error($"Could not get album tracks for album {item.Title} ({item.Id})");
-                    continue;
-                }
-                MapAndInsertTracks(context, tracks.Items);
-            }
+                await SaveAlbumTracks(context, item);
 
             MapAndInsertAlbumFavorites(context, favsResult.Items);
         }
@@ -78,6 +69,20 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 MapAndInsertArtist(context, item);
 
             MapAndInsertArtistFavorites(context, favsResult.Items);
+        }
+
+        private static async Task SaveAlbumTracks(VaultContext context, AlbumModel item)
+        {
+            var tracks = await TidalIntegrator.GetAlbumTracks(item.Id);
+            if (tracks == null)
+            {
+                Console.WriteLine($"Could not get album tracks for album {item.Title} ({item.Id})");
+                Log.Error($"Could not get album tracks for album {item.Title} ({item.Id})");
+                return;
+            }
+
+            MapAndInsertTracks(context, tracks.Items);
+            MapAndInsertAlbumTracks(context, tracks.Items, item);
         }
 
         public static async Task EnsureAlbumUpc(VaultContext context, IterationSettings iterationSettings)
@@ -220,7 +225,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
             MapAndInsertAlbumArtists(context, item);
         }
-
+        
         private static void SaveArtist(VaultContext context, ICollection<ArtistModel> insertedArtists, ArtistModel item)
         {
             if (insertedArtists.All(a => a.Id != item.Id))
@@ -276,10 +281,21 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             return distinctTracks;
         }
 
+        private static void MapAndInsertAlbumTracks(VaultContext context, IEnumerable<TrackModel> tracks, AlbumModel album)
+        {
+            var position = 1;
+            var albumTracks = tracks.Select(i => DaoMapper.MapTidalAlbumTrackDao(i.Id, album.Id, position++))
+                .ToList();
+
+            albumTracks.ForEach(pt => DbInserter.InsertAlbumTrack(context, pt));
+
+            context.SaveChanges();
+        }
+
         private static void MapAndInsertPlaylistTracks(VaultContext context, IEnumerable<TidalTrack> tracks, TidalPlaylist playlist)
         {
             var position = 1;
-            var playlistTracks = tracks.Select(i => DaoMapper.MapTidalPlaylistTrackDao(i, playlist, position++))
+            var playlistTracks = tracks.Select(i => DaoMapper.MapTidalPlaylistTrackDao(i.Id, playlist.Uuid, position++))
                 .ToList();
 
             playlistTracks.ForEach(pt => DbInserter.InsertPlaylistTrack(context, pt));

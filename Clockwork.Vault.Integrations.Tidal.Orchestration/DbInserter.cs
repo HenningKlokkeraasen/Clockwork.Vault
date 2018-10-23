@@ -64,11 +64,30 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             Log.Info($"    Updated fields ISRC and AudioQuality for track {existingRecord.Id} {existingRecord.Title}");
         }
 
+
+        public static void InsertAlbumTrack(VaultContext context, TidalAlbumTrack albumTrack)
+        {
+            var existingRecord = context.AlbumTracks
+                .FirstOrDefault(p => p.TrackId == albumTrack.TrackId
+                                     && p.AlbumId == albumTrack.AlbumId);
+
+            if (existingRecord != null)
+            {
+                Log.Info($"Record exists: album-track {existingRecord.AlbumId} {existingRecord.TrackId}");
+            }
+            else
+            {
+                context.AlbumTracks.Add(albumTrack);
+                Log.Info($"Inserted album-track {albumTrack.AlbumId} {albumTrack.TrackId}");
+            }
+        }
+
         public static void InsertPlaylistTrack(VaultContext context, TidalPlaylistTrack playlistTrack)
         {
             var existingRecord = context.PlaylistTracks
                 .FirstOrDefault(p => p.TrackId == playlistTrack.TrackId
                                      && p.PlaylistId == playlistTrack.PlaylistId);
+
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: playlist-track {existingRecord.PlaylistId} {existingRecord.TrackId}");
