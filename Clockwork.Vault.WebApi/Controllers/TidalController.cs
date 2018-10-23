@@ -23,5 +23,49 @@ namespace Clockwork.Vault.WebApi.Controllers
 
         [HttpGet]
         public IHttpActionResult Tracks() => Ok(_tidalOrchestrator.Tracks);
+
+        [HttpGet]
+        public IHttpActionResult Artists(int id)
+        {
+            var artist = _tidalOrchestrator.GetArtist(id);
+
+            if (artist != null)
+                return Ok(artist);
+
+            return NotFound();
+        }
+
+        [HttpGet]
+        public IHttpActionResult Albums(int id)
+        {
+            var album = _tidalOrchestrator.GetAlbum(id);
+
+            if (album != null)
+                return Ok(album);
+
+            return NotFound();
+        }
+
+        [HttpGet]
+        public IHttpActionResult Playlists(string id)
+        {
+            var playlist = _tidalOrchestrator.GetPlaylist(id);
+
+            if (playlist != null)
+                return Ok(playlist);
+
+            return NotFound();
+        }
+
+        [HttpGet]
+        public IHttpActionResult Tracks(int id)
+        {
+            var track = _tidalOrchestrator.GetTrack(id);
+
+            if (track != null)
+                return Ok(track);
+
+            return NotFound();
+        }
     }
 }
