@@ -5,29 +5,29 @@ namespace Clockwork.Vault.WebApi.Controllers
 {
     public class TidalController : ApiController
     {
-        private readonly TidalRepository _tidalRepository;
+        private readonly TidalOrchestrator _tidalOrchestrator;
 
         public TidalController()
         {
-            _tidalRepository = new TidalRepository();
+            _tidalOrchestrator = new TidalOrchestrator();
         }
 
         [HttpGet]
-        public IHttpActionResult Artists() => Ok(_tidalRepository.Artists);
+        public IHttpActionResult Artists() => Ok(_tidalOrchestrator.Artists);
 
         [HttpGet]
-        public IHttpActionResult Albums() => Ok(_tidalRepository.Albums);
+        public IHttpActionResult Albums() => Ok(_tidalOrchestrator.Albums);
 
         [HttpGet]
-        public IHttpActionResult Playlists() => Ok(_tidalRepository.Playlists);
+        public IHttpActionResult Playlists() => Ok(_tidalOrchestrator.Playlists);
 
         [HttpGet]
-        public IHttpActionResult Tracks() => Ok(_tidalRepository.Tracks);
+        public IHttpActionResult Tracks() => Ok(_tidalOrchestrator.Tracks);
 
         [HttpGet]
         public IHttpActionResult Artists(int id)
         {
-            var artist = _tidalRepository.GetArtist(id);
+            var artist = _tidalOrchestrator.GetArtist(id);
 
             if (artist != null)
                 return Ok(artist);
@@ -36,34 +36,65 @@ namespace Clockwork.Vault.WebApi.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult Albums(int id)
+        public IHttpActionResult Albums(int id, [FromUri]bool expand)
         {
-            var album = _tidalRepository.GetAlbum(id);
+            if (expand)
+            {
+                var album = _tidalOrchestrator.GetAlbumExpanded(id);
 
-            if (album != null)
-                return Ok(album);
+                if (album != null)
+                    return Ok(album);
+            }
+            else
+            {
+                var album = _tidalOrchestrator.GetAlbum(id);
+
+                if (album != null)
+                    return Ok(album);
+            }
 
             return NotFound();
         }
 
         [HttpGet]
-        public IHttpActionResult Playlists(string id)
+        public IHttpActionResult Playlists(string id, [FromUri]bool expand = false)
         {
-            var playlist = _tidalRepository.GetPlaylist(id);
+            if (expand)
+            {
+                var playlist = _tidalOrchestrator.GetPlaylistExpanded(id);
 
-            if (playlist != null)
-                return Ok(playlist);
+                if (playlist != null)
+                    return Ok(playlist);
+            }
+            else
+            {
+                var playlist = _tidalOrchestrator.GetPlaylist(id);
+
+                if (playlist != null)
+                    return Ok(playlist);
+            }
 
             return NotFound();
         }
 
-        [HttpGet]
-        public IHttpActionResult Tracks(int id)
-        {
-            var track = _tidalRepository.GetTrack(id);
 
-            if (track != null)
-                return Ok(track);
+        [HttpGet]
+        public IHttpActionResult Tracks(int id, [FromUri]bool expand = false)
+        {
+            if (expand)
+            {
+                var track = _tidalOrchestrator.GetTrackExpanded(id);
+
+                if (track != null)
+                    return Ok(track);
+            }
+            else
+            {
+                var track = _tidalOrchestrator.GetTrack(id);
+
+                if (track != null)
+                    return Ok(track);
+            }
 
             return NotFound();
         }

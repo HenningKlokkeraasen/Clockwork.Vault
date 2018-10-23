@@ -11,6 +11,9 @@ namespace Clockwork.Vault.WebApi
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+
+            // TODO fix routing
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",
