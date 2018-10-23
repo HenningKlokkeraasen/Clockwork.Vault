@@ -5,29 +5,29 @@ namespace Clockwork.Vault.WebApi.Controllers
 {
     public class TidalController : ApiController
     {
-        private readonly TidalOrchestrator _tidalOrchestrator;
+        private readonly TidalRepository _tidalRepository;
 
         public TidalController()
         {
-            _tidalOrchestrator = new TidalOrchestrator();
+            _tidalRepository = new TidalRepository();
         }
 
         [HttpGet]
-        public IHttpActionResult Artists() => Ok(_tidalOrchestrator.Artists);
+        public IHttpActionResult Artists() => Ok(_tidalRepository.Artists);
 
         [HttpGet]
-        public IHttpActionResult Albums() => Ok(_tidalOrchestrator.Albums);
+        public IHttpActionResult Albums() => Ok(_tidalRepository.Albums);
 
         [HttpGet]
-        public IHttpActionResult Playlists() => Ok(_tidalOrchestrator.Playlists);
+        public IHttpActionResult Playlists() => Ok(_tidalRepository.Playlists);
 
         [HttpGet]
-        public IHttpActionResult Tracks() => Ok(_tidalOrchestrator.Tracks);
+        public IHttpActionResult Tracks() => Ok(_tidalRepository.Tracks);
 
         [HttpGet]
         public IHttpActionResult Artists(int id)
         {
-            var artist = _tidalOrchestrator.GetArtist(id);
+            var artist = _tidalRepository.GetArtist(id);
 
             if (artist != null)
                 return Ok(artist);
@@ -38,7 +38,7 @@ namespace Clockwork.Vault.WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Albums(int id)
         {
-            var album = _tidalOrchestrator.GetAlbum(id);
+            var album = _tidalRepository.GetAlbum(id);
 
             if (album != null)
                 return Ok(album);
@@ -49,7 +49,7 @@ namespace Clockwork.Vault.WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Playlists(string id)
         {
-            var playlist = _tidalOrchestrator.GetPlaylist(id);
+            var playlist = _tidalRepository.GetPlaylist(id);
 
             if (playlist != null)
                 return Ok(playlist);
@@ -60,7 +60,7 @@ namespace Clockwork.Vault.WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Tracks(int id)
         {
-            var track = _tidalOrchestrator.GetTrack(id);
+            var track = _tidalRepository.GetTrack(id);
 
             if (track != null)
                 return Ok(track);
