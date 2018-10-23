@@ -24,6 +24,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Dao
         public DbSet<TidalCreator> Creators { get; set; }
 
         public DbSet<TidalAlbumArtist> AlbumArtists { get; set; }
+        public DbSet<TidalAlbumTrack> AlbumTracks { get; set; }
         public DbSet<TidalTrackArtist> TrackArtists { get; set; }
         public DbSet<TidalPlaylistTrack> PlaylistTracks { get; set; }
 
