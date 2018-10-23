@@ -3,6 +3,6 @@
     public class TidalPlaylistTrack : TidalTrackRelationBase
     {
         public string PlaylistId { get; set; }
-        public TidalPlaylist Playlist { get; set; }
+        public virtual TidalPlaylist Playlist { get; set; }
     }
 }
