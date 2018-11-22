@@ -5,6 +5,7 @@ using NUnit.Framework;
 namespace Clockwork.Vault.Integrations.Tidal.Tests.DaoTests
 {
     [TestFixture]
+    [Ignore("needs db context")]
     public class DaoTests
     {
         private VaultContext _vaultContext;
