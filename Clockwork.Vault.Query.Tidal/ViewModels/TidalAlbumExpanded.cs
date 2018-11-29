@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Clockwork.Vault.Dao.Models.Tidal;
 
-namespace Clockwork.Vault.Integrations.Tidal.Orchestration.ViewModels
+namespace Clockwork.Vault.Query.Tidal.ViewModels
 {
     public class TidalAlbumExpanded
     {

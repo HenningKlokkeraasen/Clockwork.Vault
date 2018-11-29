@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Vault.Core", "Clockwork.Vault.Core\Clockwork.Vault.Core.csproj", "{21A1B51D-A5A4-48E8-8C17-9DE10AC0408F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tidal", "Tidal", "{95738BBC-77D9-44F0-B619-A0D006FFED32}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data In From External Sources - Tidal", "Data In From External Sources - Tidal", "{95738BBC-77D9-44F0-B619-A0D006FFED32}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Vault.Integrations.Tidal", "Clockwork.Vault.Integrations.Tidal\Clockwork.Vault.Integrations.Tidal.csproj", "{9F3EB900-6A41-431B-9CCF-853481733AB7}"
 EndProject
@@ -27,6 +27,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{BA6610EA-BD00-4375-A24A-7B4EC245D361}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Vault.Dao", "Clockwork.Vault.Dao\Clockwork.Vault.Dao.csproj", "{B2132870-9C21-492A-A47C-F56804F29675}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Vault.Query.Tidal", "Clockwork.Vault.Query.Tidal\Clockwork.Vault.Query.Tidal.csproj", "{686FE782-BA0A-4B30-BC30-D41A50DFEE20}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data Out from DB (Queries)", "Data Out from DB (Queries)", "{F3474E9A-D69B-485B-8BDF-347776D9085F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Vault.Query.Master", "Clockwork.Vault.Query.Master\Clockwork.Vault.Query.Master.csproj", "{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +64,14 @@ Global
 		{B2132870-9C21-492A-A47C-F56804F29675}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2132870-9C21-492A-A47C-F56804F29675}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2132870-9C21-492A-A47C-F56804F29675}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686FE782-BA0A-4B30-BC30-D41A50DFEE20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686FE782-BA0A-4B30-BC30-D41A50DFEE20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686FE782-BA0A-4B30-BC30-D41A50DFEE20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686FE782-BA0A-4B30-BC30-D41A50DFEE20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +83,8 @@ Global
 		{8A230145-CF3B-4185-89BA-1026F40FF1D2} = {95738BBC-77D9-44F0-B619-A0D006FFED32}
 		{25671373-BE78-46FD-B09A-4BBD23BC5E30} = {FF375F94-6460-48CF-9C67-6DADB1C501A3}
 		{B2132870-9C21-492A-A47C-F56804F29675} = {9DFF69DC-CC42-4C4B-956D-59F158F76B61}
+		{686FE782-BA0A-4B30-BC30-D41A50DFEE20} = {F3474E9A-D69B-485B-8BDF-347776D9085F}
+		{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D} = {F3474E9A-D69B-485B-8BDF-347776D9085F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63804355-EDE6-4AC1-9338-D29256F8A3D4}

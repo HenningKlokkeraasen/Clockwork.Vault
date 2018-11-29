@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\MasterDataController.cs" />
     <Compile Include="Controllers\TidalController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -106,9 +107,13 @@
       <Project>{b2132870-9c21-492a-a47c-f56804f29675}</Project>
       <Name>Clockwork.Vault.Dao</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Clockwork.Vault.Integrations.Tidal.Orchestration\Clockwork.Vault.Integrations.Tidal.Orchestration.csproj">
-      <Project>{8a230145-cf3b-4185-89ba-1026f40ff1d2}</Project>
-      <Name>Clockwork.Vault.Integrations.Tidal.Orchestration</Name>
+    <ProjectReference Include="..\Clockwork.Vault.Query.Master\Clockwork.Vault.Query.Master.csproj">
+      <Project>{a8dcdec8-0c7a-4c87-8af8-71c944e1423d}</Project>
+      <Name>Clockwork.Vault.Query.Master</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Clockwork.Vault.Query.Tidal\Clockwork.Vault.Query.Tidal.csproj">
+      <Project>{686fe782-ba0a-4b30-bc30-d41a50dfee20}</Project>
+      <Name>Clockwork.Vault.Query.Tidal</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

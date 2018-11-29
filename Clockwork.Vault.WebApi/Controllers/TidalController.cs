@@ -1,5 +1,5 @@
 ﻿using System.Web.Http;
-using Clockwork.Vault.Integrations.Tidal.Orchestration;
+using Clockwork.Vault.Query.Tidal;
 
 namespace Clockwork.Vault.WebApi.Controllers
 {

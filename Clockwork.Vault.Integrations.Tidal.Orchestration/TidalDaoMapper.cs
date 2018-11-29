@@ -5,7 +5,7 @@ using OpenTidl.Models.Base;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 {
-    public static class DaoMapper
+    public static class TidalDaoMapper
     {
         public static TidalPlaylist MapTidalPlaylistModelToDao(PlaylistModel item)
         {

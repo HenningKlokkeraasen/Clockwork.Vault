@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8A230145-CF3B-4185-89BA-1026F40FF1D2}</ProjectGuid>
+    <ProjectGuid>{686FE782-BA0A-4B30-BC30-D41A50DFEE20}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Clockwork.Vault.Integrations.Tidal.Orchestration</RootNamespace>
-    <AssemblyName>Clockwork.Vault.Integrations.Tidal.Orchestration</AssemblyName>
+    <RootNamespace>Clockwork.Vault.Query.Tidal</RootNamespace>
+    <AssemblyName>Clockwork.Vault.Query.Tidal</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,13 +37,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTidl, Version=1.0.163.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\libs\OpenTidl\OpenTidl.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -54,11 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TidalDbInserter.cs" />
-    <Compile Include="TidalDaoMapper.cs" />
-    <Compile Include="IterationSettings.cs" />
-    <Compile Include="SaveTidalDataOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TidalOrchestrator.cs" />
+    <Compile Include="TidalRepository.cs" />
+    <Compile Include="ViewModels\TidalAlbumExpanded.cs" />
+    <Compile Include="ViewModels\TidalPlaylistExpanded.cs" />
+    <Compile Include="ViewModels\TidalTrackExpanded.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Clockwork.Vault.Core\Clockwork.Vault.Core.csproj">
@@ -69,15 +64,9 @@
       <Project>{b2132870-9c21-492a-a47c-f56804f29675}</Project>
       <Name>Clockwork.Vault.Dao</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Clockwork.Vault.Integrations.Tidal\Clockwork.Vault.Integrations.Tidal.csproj">
-      <Project>{9f3eb900-6a41-431b-9ccf-853481733ab7}</Project>
-      <Name>Clockwork.Vault.Integrations.Tidal</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="LICENSE.txt" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
