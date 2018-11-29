@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Core\AppGeneratedEntityBase.cs" />
+    <Compile Include="Models\Master\Creator.cs" />
     <Compile Include="Models\Master\MusicalWorkBase.cs" />
     <Compile Include="Models\Master\SourceEnum.cs" />
     <Compile Include="Models\Master\Album.cs" />

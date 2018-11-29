@@ -13,6 +13,8 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster.Tests.SystemTests
 
         private static readonly ILog Log = LogManager.GetLogger("Default");
 
+        private TidalToMasterDataOrchestrator Cut => new TidalToMasterDataOrchestrator(_vaultContext);
+
         public TransferDataTests()
         {
             XmlConfigurator.Configure();
@@ -24,7 +26,23 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster.Tests.SystemTests
             Log.Info("Starting TransferArtists");
 
             GetInMemContextOrEstablish();
-            TidalToMasterDataOrchestrator.TransferArtists(_vaultContext);
+            Cut.TransferArtists();
+        }
+
+        [Test]
+        public void TransferAlbums()
+        {
+            Log.Info("Starting TransferAlbums");
+            GetInMemContextOrEstablish();
+            Cut.TransferAlbums();
+        }
+
+        [Test]
+        public void TransferTracks()
+        {
+            Log.Info("Starting TransferTracks");
+            GetInMemContextOrEstablish();
+            Cut.TransferTracks();
         }
 
         private void GetInMemContextOrEstablish() => _vaultContext = new VaultContext();

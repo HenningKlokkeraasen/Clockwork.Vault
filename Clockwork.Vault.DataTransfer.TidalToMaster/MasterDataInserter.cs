@@ -7,20 +7,85 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
 {
     public class MasterDataInserter
     {
+        private readonly VaultContext _context;
+
         private static readonly ILog Log = LogManager.GetLogger("Default");
 
-        public static void InsertArtist(VaultContext context, Artist artist)
+        public MasterDataInserter(VaultContext context)
         {
-            var existingRecord = context.Artists.FirstOrDefault(p => p.Name == artist.Name);
+            _context = context;
+        }
+
+        public void InsertArtist(Artist artist)
+        {
+            var existingRecord = _context.Artists.FirstOrDefault(p => p.Name == artist.Name);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: artist with name {existingRecord.Name}");
             }
             else
             {
-                context.Artists.Add(artist);
+                _context.Artists.Add(artist);
                 Log.Info($"Inserted artist {artist.Name}");
             }
+        }
+
+        public void InsertAlbum(Album album)
+        {
+            var exactMatch = _context.Albums.FirstOrDefault(p => p.Upc == album.Upc);
+            if (exactMatch != null)
+            {
+                Log.Info($"Record exists: album with title {exactMatch.Title}");
+            }
+            else
+            {
+                // TODO WIP
+                var existingRecord = _context.Albums.FirstOrDefault(p => p.Title == album.Title
+                                                                         && p.Version == album.Version
+                                                                         && p.Source == album.Source);
+
+                if (existingRecord != null)
+                {
+                    Log.Info($"Record exists: album with title {existingRecord.Title}");
+                }
+                else
+                {
+                    _context.Albums.Add(album);
+                    Log.Info($"Inserted album {album.Title}");
+                }
+            }
+        }
+
+        public void InsertTrack(Track track)//, IEnumerable<TrackArtist> trackArtists
+        {
+            var exactMatch = _context.Tracks.FirstOrDefault(p => p.Isrc == track.Isrc);
+            if (exactMatch != null)
+            {
+                Log.Info($"Record exists: track with title {exactMatch.Title}");
+            }
+            else
+            {
+                // TODO WIP
+                var existingRecord = _context.Tracks.FirstOrDefault(p => p.Title == track.Title
+                                                                         && p.Version == track.Version
+                                                                         && p.Source == track.Source);
+
+                if (existingRecord != null)
+                {
+                    Log.Info($"Record exists: track with title {existingRecord.Title}");
+                }
+                else
+                {
+                    track.PossiblyDuplicate = true;
+                    _context.Tracks.Add(track);
+                    Log.Info($"Inserted track {track.Title} [POSSIBLY DUPLICATE]");
+                }
+            }
+        }
+
+        public void InsertPlaylist(Playlist playlist)
+        {
+            // TODO 
         }
     }
 }

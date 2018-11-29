@@ -9,5 +9,6 @@ namespace Clockwork.Vault.Dao.Models.Master
         public int Duration { get; set; }
 
         public SourceEnum Source { get; set; }
+        public bool PossiblyDuplicate { get; set; }
     }
 }
