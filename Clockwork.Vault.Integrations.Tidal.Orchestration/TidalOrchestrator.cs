@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Clockwork.Vault.Integrations.Tidal.Dao.Models;
+using Clockwork.Vault.Dao.Models.Tidal;
 using Clockwork.Vault.Integrations.Tidal.Orchestration.ViewModels;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration

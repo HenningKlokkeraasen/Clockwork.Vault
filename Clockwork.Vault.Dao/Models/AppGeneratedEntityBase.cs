@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Clockwork.Vault.Integrations.Tidal.Dao.Models
+namespace Clockwork.Vault.Dao.Models
 {
     public abstract class AppGeneratedEntityBase
     {

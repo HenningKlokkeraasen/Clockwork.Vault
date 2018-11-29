@@ -1,5 +1,5 @@
 ﻿using System;
-using Clockwork.Vault.Integrations.Tidal.Dao;
+using Clockwork.Vault.Dao;
 using NUnit.Framework;
 
 namespace Clockwork.Vault.Integrations.Tidal.Tests.DaoTests

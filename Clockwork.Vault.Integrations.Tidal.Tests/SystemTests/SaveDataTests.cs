@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 using System.Threading.Tasks;
-using Clockwork.Vault.Integrations.Tidal.Dao;
+using Clockwork.Vault.Dao;
 using Clockwork.Vault.Integrations.Tidal.Orchestration;
 using log4net;
 using log4net.Config;

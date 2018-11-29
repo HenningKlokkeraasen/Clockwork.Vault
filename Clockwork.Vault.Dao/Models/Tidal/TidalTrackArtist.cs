@@ -1,4 +1,4 @@
-﻿namespace Clockwork.Vault.Integrations.Tidal.Dao.Models
+﻿namespace Clockwork.Vault.Dao.Models.Tidal
 {
     public class TidalTrackArtist : TidalArtistRelationBase
     {

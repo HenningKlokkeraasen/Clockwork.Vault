@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Clockwork.Vault.Integrations.Tidal.Dao;
-using Clockwork.Vault.Integrations.Tidal.Dao.Models;
+using Clockwork.Vault.Dao;
+using Clockwork.Vault.Dao.Models.Tidal;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 {

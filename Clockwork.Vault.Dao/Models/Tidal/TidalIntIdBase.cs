@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Clockwork.Vault.Integrations.Tidal.Dao.Models
+namespace Clockwork.Vault.Dao.Models.Tidal
 {
     public abstract class TidalIntIdBase
     {
