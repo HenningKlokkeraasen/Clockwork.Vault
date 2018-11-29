@@ -2,8 +2,9 @@
 using System.Linq;
 using Clockwork.Vault.Dao;
 using Clockwork.Vault.Dao.Models.Tidal;
+using Clockwork.Vault.Integrations.Tidal.Orchestration;
 
-namespace Clockwork.Vault.Integrations.Tidal.Orchestration
+namespace Clockwork.Vault.Query.Tidal
 {
     internal class TidalRepository
     {

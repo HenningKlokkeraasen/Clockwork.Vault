@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Clockwork.Vault.Dao.Models.Tidal;
-using Clockwork.Vault.Integrations.Tidal.Orchestration.ViewModels;
+using Clockwork.Vault.Query.Tidal.ViewModels;
 
-namespace Clockwork.Vault.Integrations.Tidal.Orchestration
+namespace Clockwork.Vault.Query.Tidal
 {
     public class TidalOrchestrator
     {

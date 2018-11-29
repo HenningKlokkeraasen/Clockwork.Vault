@@ -6,7 +6,7 @@ using log4net;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 {
-    public static class DbInserter
+    public static class TidalDbInserter
     {
         private static readonly ILog Log = LogManager.GetLogger("Default");
 

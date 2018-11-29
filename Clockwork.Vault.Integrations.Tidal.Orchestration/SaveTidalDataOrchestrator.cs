@@ -106,8 +106,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 }
                 else
                 {
-                    var album = DaoMapper.MapTidalAlbumModelToDao(albumResult);
-                    DbInserter.UpdateFields(context, album, tidalAlbum);
+                    var album = TidalDaoMapper.MapTidalAlbumModelToDao(albumResult);
+                    TidalDbInserter.UpdateFields(context, album, tidalAlbum);
                 }
 
                 Log.Info($"Sleeping for {sleepTimeInSeconds} seconds");
@@ -136,8 +136,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 }
                 else
                 {
-                    var album = DaoMapper.MapTidalTrackModelToDao(trackResult);
-                    DbInserter.UpdateFields(context, album, tidalTrack);
+                    var album = TidalDaoMapper.MapTidalTrackModelToDao(trackResult);
+                    TidalDbInserter.UpdateFields(context, album, tidalTrack);
                 }
 
                 Log.Info($"Sleeping for {sleepTimeInSeconds} seconds");
@@ -237,23 +237,23 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         private static void MapAndInsertCreators(VaultContext context, IEnumerable<PlaylistModel> result)
         {
-            var creators = result.Select(DaoMapper.MapTidalCreatorModelToDao);
+            var creators = result.Select(TidalDaoMapper.MapTidalCreatorModelToDao);
 
             var distinctCreators = creators
                 .GroupBy(c => c.Id)
                 .Select(group => group.First())
                 .ToList();
 
-            distinctCreators.ForEach(c => DbInserter.InsertCreator(context, c));
+            distinctCreators.ForEach(c => TidalDbInserter.InsertCreator(context, c));
 
             context.SaveChanges();
         }
 
         private static IEnumerable<TidalPlaylist> MapAndInsertPlaylists(VaultContext context, IEnumerable<PlaylistModel> result)
         {
-            var playlists = result.Select(DaoMapper.MapTidalPlaylistModelToDao).ToList();
+            var playlists = result.Select(TidalDaoMapper.MapTidalPlaylistModelToDao).ToList();
 
-            playlists.ForEach(p => DbInserter.InsertPlaylist(context, p));
+            playlists.ForEach(p => TidalDbInserter.InsertPlaylist(context, p));
 
             context.SaveChanges();
 
@@ -262,7 +262,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         private static IEnumerable<TidalTrack> MapAndInsertTracks(VaultContext context, IEnumerable<TrackModel> result)
         {
-            var tracks = result.Select(DaoMapper.MapTidalTrackModelToDao).ToList();
+            var tracks = result.Select(TidalDaoMapper.MapTidalTrackModelToDao).ToList();
 
             var trackGroups = tracks.GroupBy(t => t.Id).ToList();
 
@@ -274,7 +274,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 .Select(group => group.First())
                 .ToList();
 
-            distinctTracks.ForEach(t => DbInserter.UpsertTrack(context, t));
+            distinctTracks.ForEach(t => TidalDbInserter.UpsertTrack(context, t));
 
             context.SaveChanges();
 
@@ -284,10 +284,10 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
         private static void MapAndInsertAlbumTracks(VaultContext context, IEnumerable<TrackModel> tracks, AlbumModel album)
         {
             var position = 1;
-            var albumTracks = tracks.Select(i => DaoMapper.MapTidalAlbumTrackDao(i.Id, album.Id, position++))
+            var albumTracks = tracks.Select(i => TidalDaoMapper.MapTidalAlbumTrackDao(i.Id, album.Id, position++))
                 .ToList();
 
-            albumTracks.ForEach(pt => DbInserter.InsertAlbumTrack(context, pt));
+            albumTracks.ForEach(pt => TidalDbInserter.InsertAlbumTrack(context, pt));
 
             context.SaveChanges();
         }
@@ -295,19 +295,19 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
         private static void MapAndInsertPlaylistTracks(VaultContext context, IEnumerable<TidalTrack> tracks, TidalPlaylist playlist)
         {
             var position = 1;
-            var playlistTracks = tracks.Select(i => DaoMapper.MapTidalPlaylistTrackDao(i.Id, playlist.Uuid, position++))
+            var playlistTracks = tracks.Select(i => TidalDaoMapper.MapTidalPlaylistTrackDao(i.Id, playlist.Uuid, position++))
                 .ToList();
 
-            playlistTracks.ForEach(pt => DbInserter.InsertPlaylistTrack(context, pt));
+            playlistTracks.ForEach(pt => TidalDbInserter.InsertPlaylistTrack(context, pt));
 
             context.SaveChanges();
         }
 
         private static TidalAlbum MapAndInsertAlbum(VaultContext context, AlbumModel result)
         {
-            var album = DaoMapper.MapTidalAlbumModelToDao(result);
+            var album = TidalDaoMapper.MapTidalAlbumModelToDao(result);
 
-            DbInserter.UpsertAlbum(context, album);
+            TidalDbInserter.UpsertAlbum(context, album);
 
             context.SaveChanges();
 
@@ -316,9 +316,9 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         private static TidalArtist MapAndInsertArtist(VaultContext context, ArtistModel result)
         {
-            var artist = DaoMapper.MapTidalArtistModelToDao(result);
+            var artist = TidalDaoMapper.MapTidalArtistModelToDao(result);
 
-            DbInserter.InsertArtist(context, artist);
+            TidalDbInserter.InsertArtist(context, artist);
 
             context.SaveChanges();
 
@@ -356,10 +356,10 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             if (track?.Artists == null)
                 return;
 
-            var trackArtists = track.Artists.Select(i => DaoMapper.MapTidalTrackArtistDao(track, i));
+            var trackArtists = track.Artists.Select(i => TidalDaoMapper.MapTidalTrackArtistDao(track, i));
 
             foreach (var trackArtist in trackArtists)
-                DbInserter.InsertTrackArtist(context, trackArtist);
+                TidalDbInserter.InsertTrackArtist(context, trackArtist);
 
             context.SaveChanges();
         }
@@ -369,50 +369,50 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             if (album?.Artists == null)
                 return;
 
-            var albumArtists = album.Artists.Select(i => DaoMapper.MapTidalAlbumArtistDao(album, i));
+            var albumArtists = album.Artists.Select(i => TidalDaoMapper.MapTidalAlbumArtistDao(album, i));
 
             foreach (var albumArtist in albumArtists)
-                DbInserter.InsertAlbumArtist(context, albumArtist);
+                TidalDbInserter.InsertAlbumArtist(context, albumArtist);
 
             context.SaveChanges();
         }
 
         private static void MapAndInsertPlaylistFavorites(VaultContext context, IEnumerable<JsonListItem<PlaylistModel>> jsonListItems)
         {
-            var favs = jsonListItems.Select(DaoMapper.MapTidalPlaylistFavDao);
+            var favs = jsonListItems.Select(TidalDaoMapper.MapTidalPlaylistFavDao);
 
             foreach (var fav in favs)
-                DbInserter.InsertFavPlaylist(context, fav);
+                TidalDbInserter.InsertFavPlaylist(context, fav);
 
             context.SaveChanges();
         }
 
         private static void MapAndInsertAlbumFavorites(VaultContext context, IEnumerable<JsonListItem<AlbumModel>> jsonListItems)
         {
-            var favs = jsonListItems.Select(DaoMapper.MapTidalAlbumFavDao);
+            var favs = jsonListItems.Select(TidalDaoMapper.MapTidalAlbumFavDao);
 
             foreach (var fav in favs)
-                DbInserter.InsertFavAlbum(context, fav);
+                TidalDbInserter.InsertFavAlbum(context, fav);
 
             context.SaveChanges();
         }
 
         private static void MapAndInsertTrackFavorites(VaultContext context, IEnumerable<JsonListItem<TrackModel>> jsonListItems)
         {
-            var favs = jsonListItems.Select(DaoMapper.MapTidalTrackFavDao);
+            var favs = jsonListItems.Select(TidalDaoMapper.MapTidalTrackFavDao);
 
             foreach (var fav in favs)
-                DbInserter.InsertFavTrack(context, fav);
+                TidalDbInserter.InsertFavTrack(context, fav);
 
             context.SaveChanges();
         }
 
         private static void MapAndInsertArtistFavorites(VaultContext context, IEnumerable<JsonListItem<ArtistModel>> jsonListItems)
         {
-            var favs = jsonListItems.Select(DaoMapper.MapTidalArtistFavDao);
+            var favs = jsonListItems.Select(TidalDaoMapper.MapTidalArtistFavDao);
 
             foreach (var fav in favs)
-                DbInserter.InsertFavArtist(context, fav);
+                TidalDbInserter.InsertFavArtist(context, fav);
 
             context.SaveChanges();
         }
