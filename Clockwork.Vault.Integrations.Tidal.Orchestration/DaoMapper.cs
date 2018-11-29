@@ -1,5 +1,5 @@
 ﻿using System;
-using Clockwork.Vault.Integrations.Tidal.Dao.Models;
+using Clockwork.Vault.Dao.Models.Tidal;
 using OpenTidl.Models;
 using OpenTidl.Models.Base;
 

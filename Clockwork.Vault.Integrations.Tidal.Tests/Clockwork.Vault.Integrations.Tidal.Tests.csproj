@@ -106,9 +106,9 @@
       <Project>{21a1b51d-a5a4-48e8-8c17-9de10ac0408f}</Project>
       <Name>Clockwork.Vault.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Clockwork.Vault.Integrations.Tidal.Dao\Clockwork.Vault.Integrations.Tidal.Dao.csproj">
+    <ProjectReference Include="..\Clockwork.Vault.Dao\Clockwork.Vault.Dao.csproj">
       <Project>{b2132870-9c21-492a-a47c-f56804f29675}</Project>
-      <Name>Clockwork.Vault.Integrations.Tidal.Dao</Name>
+      <Name>Clockwork.Vault.Dao</Name>
     </ProjectReference>
     <ProjectReference Include="..\Clockwork.Vault.Integrations.Tidal.Orchestration\Clockwork.Vault.Integrations.Tidal.Orchestration.csproj">
       <Project>{8a230145-cf3b-4185-89ba-1026f40ff1d2}</Project>

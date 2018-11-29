@@ -1,6 +1,6 @@
 using System.Data.Entity.Migrations;
 
-namespace Clockwork.Vault.Integrations.Tidal.Dao.Migrations
+namespace Clockwork.Vault.Dao.Migrations
 {
 
     internal sealed class VaultConfiguration : DbMigrationsConfiguration<VaultContext>

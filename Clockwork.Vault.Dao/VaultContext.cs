@@ -1,8 +1,8 @@
 ﻿using System.Data.Entity;
-using Clockwork.Vault.Integrations.Tidal.Dao.Migrations;
-using Clockwork.Vault.Integrations.Tidal.Dao.Models;
+using Clockwork.Vault.Dao.Migrations;
+using Clockwork.Vault.Dao.Models.Tidal;
 
-namespace Clockwork.Vault.Integrations.Tidal.Dao
+namespace Clockwork.Vault.Dao
 {
     public class VaultContext : DbContext
     {
