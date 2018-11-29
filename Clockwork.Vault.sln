@@ -34,6 +34,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data Out from DB (Queries)"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Vault.Query.Master", "Clockwork.Vault.Query.Master\Clockwork.Vault.Query.Master.csproj", "{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Vault.DataTransfer.TidalToMaster", "Clockwork.Vault.DataTransfer.TidalToMaster\Clockwork.Vault.DataTransfer.TidalToMaster.csproj", "{2185F760-0CE3-41AB-98B9-B4CCDF0B5FAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data Transfer", "Data Transfer", "{D3EEF501-14D5-413F-852B-F8C2E967AA54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwork.Vault.DataTransfer.TidalToMaster.Tests", "Clockwork.Vault.DataTransfer.TidalToMaster.Tests\Clockwork.Vault.DataTransfer.TidalToMaster.Tests.csproj", "{5919004E-BD67-4506-B803-CA7E0FA30656}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +78,14 @@ Global
 		{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2185F760-0CE3-41AB-98B9-B4CCDF0B5FAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2185F760-0CE3-41AB-98B9-B4CCDF0B5FAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2185F760-0CE3-41AB-98B9-B4CCDF0B5FAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2185F760-0CE3-41AB-98B9-B4CCDF0B5FAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5919004E-BD67-4506-B803-CA7E0FA30656}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5919004E-BD67-4506-B803-CA7E0FA30656}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5919004E-BD67-4506-B803-CA7E0FA30656}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5919004E-BD67-4506-B803-CA7E0FA30656}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +99,8 @@ Global
 		{B2132870-9C21-492A-A47C-F56804F29675} = {9DFF69DC-CC42-4C4B-956D-59F158F76B61}
 		{686FE782-BA0A-4B30-BC30-D41A50DFEE20} = {F3474E9A-D69B-485B-8BDF-347776D9085F}
 		{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D} = {F3474E9A-D69B-485B-8BDF-347776D9085F}
+		{2185F760-0CE3-41AB-98B9-B4CCDF0B5FAD} = {D3EEF501-14D5-413F-852B-F8C2E967AA54}
+		{5919004E-BD67-4506-B803-CA7E0FA30656} = {D3EEF501-14D5-413F-852B-F8C2E967AA54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63804355-EDE6-4AC1-9338-D29256F8A3D4}
