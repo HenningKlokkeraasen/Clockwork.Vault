@@ -12,35 +12,35 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         public static void InsertCreator(VaultContext context, TidalCreator creator)
         {
-            var existingRecord = context.Creators.FirstOrDefault(p => p.Id == creator.Id);
+            var existingRecord = context.TidalCreators.FirstOrDefault(p => p.Id == creator.Id);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: creator {existingRecord.Id}");
             }
             else
             {
-                context.Creators.Add(creator);
+                context.TidalCreators.Add(creator);
                 Log.Info($"Inserted creator {creator.Id}");
             }
         }
 
         public static void InsertPlaylist(VaultContext context, TidalPlaylist playlist)
         {
-            var existingRecord = context.Playlists.FirstOrDefault(p => p.Uuid == playlist.Uuid);
+            var existingRecord = context.TidalPlaylists.FirstOrDefault(p => p.Uuid == playlist.Uuid);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: playlist {existingRecord.Uuid} {existingRecord.Title}");
             }
             else
             {
-                context.Playlists.Add(playlist);
+                context.TidalPlaylists.Add(playlist);
                 Log.Info($"Inserted playlist {playlist.Uuid} {playlist.Title}");
             }
         }
 
         public static void UpsertTrack(VaultContext context, TidalTrack track)
         {
-            var existingRecord = context.Tracks.FirstOrDefault(p => p.Id == track.Id);
+            var existingRecord = context.TidalTracks.FirstOrDefault(p => p.Id == track.Id);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: track {existingRecord.Id} {track.Title}");
@@ -48,7 +48,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
             else
             {
-                context.Tracks.Add(track);
+                context.TidalTracks.Add(track);
                 Log.Info($"Inserted track {track.Id} {track.Title}");
             }
         }
@@ -67,7 +67,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         public static void InsertAlbumTrack(VaultContext context, TidalAlbumTrack albumTrack)
         {
-            var existingRecord = context.AlbumTracks
+            var existingRecord = context.TidalAlbumTracks
                 .FirstOrDefault(p => p.TrackId == albumTrack.TrackId
                                      && p.AlbumId == albumTrack.AlbumId);
 
@@ -77,14 +77,14 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
             else
             {
-                context.AlbumTracks.Add(albumTrack);
+                context.TidalAlbumTracks.Add(albumTrack);
                 Log.Info($"Inserted album-track {albumTrack.AlbumId} {albumTrack.TrackId}");
             }
         }
 
         public static void InsertPlaylistTrack(VaultContext context, TidalPlaylistTrack playlistTrack)
         {
-            var existingRecord = context.PlaylistTracks
+            var existingRecord = context.TidalPlaylistTracks
                 .FirstOrDefault(p => p.TrackId == playlistTrack.TrackId
                                      && p.PlaylistId == playlistTrack.PlaylistId);
 
@@ -94,14 +94,14 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
             else
             {
-                context.PlaylistTracks.Add(playlistTrack);
+                context.TidalPlaylistTracks.Add(playlistTrack);
                 Log.Info($"Inserted playlist-track {playlistTrack.PlaylistId} {playlistTrack.TrackId}");
             }
         }
 
         public static void UpsertAlbum(VaultContext context, TidalAlbum album)
         {
-            var existingRecord = context.Albums.FirstOrDefault(p => p.Id == album.Id);
+            var existingRecord = context.TidalAlbums.FirstOrDefault(p => p.Id == album.Id);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: album {existingRecord.Id} {album.Title}");
@@ -109,7 +109,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
             else
             {
-                context.Albums.Add(album);
+                context.TidalAlbums.Add(album);
                 Log.Info($"Inserted album {album.Id} {album.Title}");
             }
         }
@@ -127,21 +127,21 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         public static void InsertArtist(VaultContext context, TidalArtist artist)
         {
-            var existingRecord = context.Artists.FirstOrDefault(p => p.Id == artist.Id);
+            var existingRecord = context.TidalArtists.FirstOrDefault(p => p.Id == artist.Id);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: artist {existingRecord.Id} {artist.Name}");
             }
             else
             {
-                context.Artists.Add(artist);
+                context.TidalArtists.Add(artist);
                 Log.Info($"Inserted artist {artist.Id} {artist.Name}");
             }
         }
 
         public static void InsertTrackArtist(VaultContext context, TidalTrackArtist trackArtist)
         {
-            var existingRecord = context.TrackArtists
+            var existingRecord = context.TidalTrackArtists
                 .FirstOrDefault(p => p.TrackId == trackArtist.TrackId
                                      && p.ArtistId == trackArtist.ArtistId);
             if (existingRecord != null)
@@ -150,14 +150,14 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
             else
             {
-                context.TrackArtists.Add(trackArtist);
+                context.TidalTrackArtists.Add(trackArtist);
                 Log.Info($"Inserted track-artist {trackArtist.TrackId} {trackArtist.ArtistId}");
             }
         }
 
         public static void InsertAlbumArtist(VaultContext context, TidalAlbumArtist albumArtist)
         {
-            var existingRecord = context.AlbumArtists
+            var existingRecord = context.TidalAlbumArtists
                 .FirstOrDefault(p => p.AlbumId == albumArtist.AlbumId
                                      && p.ArtistId == albumArtist.ArtistId);
             if (existingRecord != null)
@@ -166,63 +166,63 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
             else
             {
-                context.AlbumArtists.Add(albumArtist);
+                context.TidalAlbumArtists.Add(albumArtist);
                 Log.Info($"Inserted album-artist {albumArtist.AlbumId} {albumArtist.ArtistId}");
             }
         }
 
         public static void InsertFavPlaylist(VaultContext context, TidalUserFavoritePlaylist fav)
         {
-            var existingRecord = context.FavoritePlaylists.FirstOrDefault(p => p.PlaylistId == fav.PlaylistId);
+            var existingRecord = context.TidalFavoritePlaylists.FirstOrDefault(p => p.PlaylistId == fav.PlaylistId);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: playlist-fav {existingRecord.PlaylistId}");
             }
             else
             {
-                context.FavoritePlaylists.Add(fav);
+                context.TidalFavoritePlaylists.Add(fav);
                 Log.Info($"Inserted playlist-fav {fav.PlaylistId}");
             }
         }
 
         public static void InsertFavAlbum(VaultContext context, TidalUserFavoriteAlbum fav)
         {
-            var existingRecord = context.FavoriteAlbums.FirstOrDefault(p => p.AlbumId == fav.AlbumId);
+            var existingRecord = context.TidalFavoriteAlbums.FirstOrDefault(p => p.AlbumId == fav.AlbumId);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: album-fav {existingRecord.AlbumId}");
             }
             else
             {
-                context.FavoriteAlbums.Add(fav);
+                context.TidalFavoriteAlbums.Add(fav);
                 Log.Info($"Inserted album-fav {fav.AlbumId}");
             }
         }
 
         public static void InsertFavTrack(VaultContext context, TidalUserFavoriteTrack fav)
         {
-            var existingRecord = context.FavoriteTracks.FirstOrDefault(p => p.TrackId == fav.TrackId);
+            var existingRecord = context.TidalFavoriteTracks.FirstOrDefault(p => p.TrackId == fav.TrackId);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: track-fav {existingRecord.TrackId}");
             }
             else
             {
-                context.FavoriteTracks.Add(fav);
+                context.TidalFavoriteTracks.Add(fav);
                 Log.Info($"Inserted track-fav {fav.TrackId}");
             }
         }
 
         public static void InsertFavArtist(VaultContext context, TidalUserFavoriteArtist fav)
         {
-            var existingRecord = context.FavoriteArtists.FirstOrDefault(p => p.ArtistId == fav.ArtistId);
+            var existingRecord = context.TidalFavoriteArtists.FirstOrDefault(p => p.ArtistId == fav.ArtistId);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: artist-fav {existingRecord.ArtistId}");
             }
             else
             {
-                context.FavoriteArtists.Add(fav);
+                context.TidalFavoriteArtists.Add(fav);
                 Log.Info($"Inserted artist-fav {fav.ArtistId}");
             }
         }

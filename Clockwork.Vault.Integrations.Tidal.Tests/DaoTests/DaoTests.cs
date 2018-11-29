@@ -20,7 +20,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.DaoTests
         public void Can_get_playlists()
         {
             GetInMemContextOrEstablish();
-            foreach (var playlist in _vaultContext.Playlists)
+            foreach (var playlist in _vaultContext.TidalPlaylists)
                 Console.WriteLine(playlist.Title);
         }
 
@@ -28,7 +28,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.DaoTests
         public void Can_get_tracks()
         {
             GetInMemContextOrEstablish();
-            foreach (var track in _vaultContext.Tracks)
+            foreach (var track in _vaultContext.TidalTracks)
                 Console.WriteLine(track.Title);
         }
 
@@ -36,7 +36,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.DaoTests
         public void Can_get_albums()
         {
             GetInMemContextOrEstablish();
-            foreach (var album in _vaultContext.Albums)
+            foreach (var album in _vaultContext.TidalAlbums)
                 Console.WriteLine(album.Title);
         }
 
@@ -44,7 +44,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.DaoTests
         public void Can_get_artists()
         {
             GetInMemContextOrEstablish();
-            foreach (var artist in _vaultContext.Artists)
+            foreach (var artist in _vaultContext.TidalArtists)
                 Console.WriteLine(artist.Name);
         }
 

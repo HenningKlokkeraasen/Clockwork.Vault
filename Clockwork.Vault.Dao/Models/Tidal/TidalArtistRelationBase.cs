@@ -1,4 +1,6 @@
-﻿namespace Clockwork.Vault.Dao.Models.Tidal
+﻿using Clockwork.Vault.Dao.Models.Core;
+
+namespace Clockwork.Vault.Dao.Models.Tidal
 {
     public abstract class TidalArtistRelationBase : AppGeneratedEntityBase
     {

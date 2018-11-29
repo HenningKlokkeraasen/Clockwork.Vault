@@ -87,7 +87,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         public static async Task EnsureAlbumUpc(VaultContext context, IterationSettings iterationSettings)
         {
-            var queryable = from a in context.Albums.Where(a => a.Upc == null)
+            var queryable = from a in context.TidalAlbums.Where(a => a.Upc == null)
                             select a;
             // https://stackoverflow.com/questions/2113498/sqlexception-from-entity-framework-new-transaction-is-not-allowed-because-ther
             var albumsWithoutUpc = queryable.ToList();
@@ -117,7 +117,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         public static async Task EnsureTrackIsrc(VaultContext context, IterationSettings iterationSettings)
         {
-            var queryable = from a in context.Tracks.Where(a => a.Isrc == null)
+            var queryable = from a in context.TidalTracks.Where(a => a.Isrc == null)
                 select a;
             // https://stackoverflow.com/questions/2113498/sqlexception-from-entity-framework-new-transaction-is-not-allowed-because-ther
             var tracksWithoutIsrc = queryable.ToList();
@@ -186,7 +186,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
         private static async Task<AlbumModel> GetAlbumAndSaveAlbumAndArtists(VaultContext context,
             ICollection<ArtistModel> insertedArtists, AlbumModel item)
         {
-            var existingRecord = context.Albums.FirstOrDefault(p => p.Id == item.Id);
+            var existingRecord = context.TidalAlbums.FirstOrDefault(p => p.Id == item.Id);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: album {item.Id} {item.Title}");
@@ -327,7 +327,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         private static async Task<AlbumModel> GetAlbumAndMapAndInsert(VaultContext context, AlbumModel lesserAlbumModel)
         {
-            var existingRecord = context.Albums.FirstOrDefault(p => p.Id == lesserAlbumModel.Id);
+            var existingRecord = context.TidalAlbums.FirstOrDefault(p => p.Id == lesserAlbumModel.Id);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: album {existingRecord.Id} {lesserAlbumModel.Title}");

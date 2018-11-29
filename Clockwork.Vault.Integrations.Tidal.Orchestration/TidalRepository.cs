@@ -14,32 +14,32 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             _vaultContext = new VaultContext();
         }
 
-        internal IList<TidalArtist> Artists => _vaultContext.Artists.ProjectToList();
+        internal IList<TidalArtist> Artists => _vaultContext.TidalArtists.ProjectToList();
 
-        internal IList<TidalAlbum> Albums => _vaultContext.Albums.ProjectToList();
+        internal IList<TidalAlbum> Albums => _vaultContext.TidalAlbums.ProjectToList();
 
-        internal IList<TidalPlaylist> Playlists => _vaultContext.Playlists.ProjectToList();
+        internal IList<TidalPlaylist> Playlists => _vaultContext.TidalPlaylists.ProjectToList();
 
-        internal IList<TidalTrack> Tracks => _vaultContext.Tracks.ProjectToList();
+        internal IList<TidalTrack> Tracks => _vaultContext.TidalTracks.ProjectToList();
 
-        internal TidalArtist GetArtist(int id) => _vaultContext.Artists.FirstOrDefault(a => a.Id == id);
+        internal TidalArtist GetArtist(int id) => _vaultContext.TidalArtists.FirstOrDefault(a => a.Id == id);
 
-        internal TidalAlbum GetAlbum(int id) => _vaultContext.Albums.FirstOrDefault(a => a.Id == id);
+        internal TidalAlbum GetAlbum(int id) => _vaultContext.TidalAlbums.FirstOrDefault(a => a.Id == id);
 
-        internal TidalPlaylist GetPlaylist(string id) => _vaultContext.Playlists.FirstOrDefault(a => a.Uuid == id);
+        internal TidalPlaylist GetPlaylist(string id) => _vaultContext.TidalPlaylists.FirstOrDefault(a => a.Uuid == id);
 
-        internal TidalTrack GetTrack(int id) => _vaultContext.Tracks.FirstOrDefault(a => a.Id == id);
+        internal TidalTrack GetTrack(int id) => _vaultContext.TidalTracks.FirstOrDefault(a => a.Id == id);
 
         internal IList<TidalTrackArtist> GetArtists(TidalTrack track) =>
-            _vaultContext.TrackArtists.Where(t => t.TrackId == track.Id).ProjectToList();
+            _vaultContext.TidalTrackArtists.Where(t => t.TrackId == track.Id).ProjectToList();
 
         internal IList<TidalAlbumArtist> GetArtists(TidalAlbum album) =>
-            _vaultContext.AlbumArtists.Where(t => t.AlbumId == album.Id).ProjectToList();
+            _vaultContext.TidalAlbumArtists.Where(t => t.AlbumId == album.Id).ProjectToList();
 
         internal IList<TidalAlbumTrack> GetTracks(TidalAlbum album) =>
-            _vaultContext.AlbumTracks.Where(at => at.AlbumId == album.Id).ProjectToList();
+            _vaultContext.TidalAlbumTracks.Where(at => at.AlbumId == album.Id).ProjectToList();
 
         internal IList<TidalPlaylistTrack> GetTracks(TidalPlaylist playlist) =>
-            _vaultContext.PlaylistTracks.Where(at => at.PlaylistId == playlist.Uuid).ProjectToList();
+            _vaultContext.TidalPlaylistTracks.Where(at => at.PlaylistId == playlist.Uuid).ProjectToList();
     }
 }
