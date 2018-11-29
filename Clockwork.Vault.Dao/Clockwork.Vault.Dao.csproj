@@ -73,11 +73,5 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Clockwork.Vault.Core.Dao\Clockwork.Vault.Core.Dao.csproj">
-      <Project>{123ae9c1-d84f-4434-9f36-e5ab57fe8589}</Project>
-      <Name>Clockwork.Vault.Core.Dao</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
