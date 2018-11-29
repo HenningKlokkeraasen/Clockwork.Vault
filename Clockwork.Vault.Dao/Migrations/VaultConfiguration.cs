@@ -1,8 +1,9 @@
 using System.Data.Entity.Migrations;
+using Clockwork.Vault.Dao;
 
-namespace Clockwork.Vault.Dao.Migrations
+// ReSharper disable once CheckNamespace - EF ContextKey namespace
+namespace Clockwork.Vault.Integrations.Tidal.Dao.Migrations
 {
-
     internal sealed class VaultConfiguration : DbMigrationsConfiguration<VaultContext>
     {
         public VaultConfiguration()
