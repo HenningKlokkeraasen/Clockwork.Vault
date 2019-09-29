@@ -14,7 +14,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ConfigName Include="App">
+    <ConfigName Include="connectionStrings">
       <Ext>config</Ext>
     </ConfigName>
   </ItemGroup>

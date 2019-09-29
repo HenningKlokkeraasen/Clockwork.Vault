@@ -1,4 +1,7 @@
-﻿using Clockwork.Vault.Dao;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Clockwork.Vault.Core.Models;
+using Clockwork.Vault.Dao;
 using Clockwork.Vault.Query.Tidal;
 
 namespace Clockwork.Vault.DataTransfer.TidalToMaster
@@ -16,56 +19,104 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
             _masterDataInserter = new MasterDataInserter(_context);
         }
 
-        public void TransferArtists()
+        public Log TransferArtists()
         {
+            var log = new Log();
+
             var tidalArtists = _tidalOrchestrator.Artists;
 
             foreach (var tidalArtist in tidalArtists)
             {
                 var artist = TidalToMasterDataMapper.Map(tidalArtist);
-                _masterDataInserter.InsertArtist(artist);
+                var msg = _masterDataInserter.InsertArtist(artist);
+                log.Messages.Add(msg);
             }
 
             _context.SaveChanges();
+
+            log.Statistics = CalculateStatistics(log.Messages);
+
+            log.Title = "Tidal to Master: Transfer Artists";
+
+            return log;
         }
 
-        public void TransferAlbums()
+        public Log TransferAlbums()
         {
+            var log = new Log();
+
             var tidalAlbums = _tidalOrchestrator.Albums;
 
             foreach (var tidalAlbum in tidalAlbums)
             {
                 var album = TidalToMasterDataMapper.Map(tidalAlbum);
-                _masterDataInserter.InsertAlbum(album);
+                var msg = _masterDataInserter.InsertAlbum(album);
+                log.Messages.Add(msg);
             }
 
             _context.SaveChanges();
+
+            log.Statistics = CalculateStatistics(log.Messages);
+
+            log.Title = "Tidal to Master: Transfer Albums";
+
+            return log;
         }
 
-        public void TransferTracks()
+        public Log TransferTracks()
         {
+            var log = new Log();
+
             var tidalTracks = _tidalOrchestrator.Tracks;
 
             foreach (var tidalTrack in tidalTracks)
             {
                 var track = TidalToMasterDataMapper.Map(tidalTrack);
-                _masterDataInserter.InsertTrack(track);
+                var msg = _masterDataInserter.InsertTrack(track);
+                log.Messages.Add(msg);
             }
 
             _context.SaveChanges();
+
+            log.Statistics = CalculateStatistics(log.Messages);
+
+            log.Title = "Tidal to Master: Transfer Tracks";
+
+            return log;
         }
 
-        public void TransferPlaylists()
+        public Log TransferPlaylists()
         {
+            var log = new Log();
+
             var tidalPlaylists = _tidalOrchestrator.Playlists;
 
             foreach (var tidalPlaylist in tidalPlaylists)
             {
                 var playlist = TidalToMasterDataMapper.Map(tidalPlaylist);
-                _masterDataInserter.InsertPlaylist(playlist);
+                var msg = _masterDataInserter.InsertPlaylist(playlist);
+                log.Messages.Add(msg);
             }
 
             _context.SaveChanges();
+
+            log.Statistics = CalculateStatistics(log.Messages);
+
+            log.Title = "Tidal to Master: Transfer Playlists";
+
+            return log;
+        }
+
+        private static IList<string> CalculateStatistics(IList<string> logMessages)
+        {
+            var insertedCount = logMessages.Count(msg => msg.StartsWith("Inserted"));
+            var existsCount = logMessages.Count(msg => msg.StartsWith("Record exists"));
+            var statistics = new List<string>
+            {
+                $"Inserted: {insertedCount}",
+                $"Already existed: {existsCount}"
+            };
+            return statistics;
         }
     }
 }

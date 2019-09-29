@@ -57,6 +57,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Clockwork.Vault.Core\Clockwork.Vault.Core.csproj">
+      <Project>{21A1B51D-A5A4-48E8-8C17-9DE10AC0408F}</Project>
+      <Name>Clockwork.Vault.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Clockwork.Vault.Dao\Clockwork.Vault.Dao.csproj">
       <Project>{b2132870-9c21-492a-a47c-f56804f29675}</Project>
       <Name>Clockwork.Vault.Dao</Name>
@@ -67,7 +71,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
