@@ -45,6 +45,14 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster.Tests.SystemTests
             Cut.TransferTracks();
         }
 
+        [Test]
+        public void TransferPlaylists()
+        {
+            Log.Info("Starting TransferPlaylists");
+            GetInMemContextOrEstablish();
+            Cut.TransferPlaylists();
+        }
+
         private void GetInMemContextOrEstablish() => _vaultContext = new VaultContext();
     }
 }

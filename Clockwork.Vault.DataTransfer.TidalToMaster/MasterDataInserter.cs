@@ -85,7 +85,17 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
 
         public void InsertPlaylist(Playlist playlist)
         {
-            // TODO 
+            var exactMatch = _context.Playlists.FirstOrDefault(p => p.SourceId == playlist.SourceId
+                                                                    && p.Source == playlist.Source);
+            if (exactMatch != null)
+            {
+                Log.Info($"Record exists: track with title {exactMatch.Title}");
+            }
+            else
+            {
+                _context.Playlists.Add(playlist);
+                Log.Info($"Inserted playlsit {playlist.Title}");
+            }
         }
     }
 }

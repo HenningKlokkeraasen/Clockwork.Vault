@@ -53,6 +53,7 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
             return new Playlist
             {
                 Source = SourceEnum.Tidal,
+                SourceId = tidalPlaylist.Uuid,
 
                 Type = tidalPlaylist.Type,
                 IsPublic = tidalPlaylist.PublicPlaylist,
