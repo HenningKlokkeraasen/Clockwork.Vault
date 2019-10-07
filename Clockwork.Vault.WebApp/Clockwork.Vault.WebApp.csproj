@@ -129,6 +129,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TidalController.cs" />
     <Compile Include="Controllers\TidalToMasterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -158,6 +159,10 @@
       <Project>{2185F760-0CE3-41AB-98B9-B4CCDF0B5FAD}</Project>
       <Name>Clockwork.Vault.DataTransfer.TidalToMaster</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Clockwork.Vault.Query.Tidal\Clockwork.Vault.Query.Tidal.csproj">
+      <Project>{686FE782-BA0A-4B30-BC30-D41A50DFEE20}</Project>
+      <Name>Clockwork.Vault.Query.Tidal</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Configurations\connectionStrings.config" />
@@ -169,6 +174,7 @@
     <None Include="packages.config" />
     <Content Include="Views\TidalToMaster\Index.cshtml" />
     <Content Include="Views\Shared\Result.cshtml" />
+    <Content Include="Views\Tidal\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
