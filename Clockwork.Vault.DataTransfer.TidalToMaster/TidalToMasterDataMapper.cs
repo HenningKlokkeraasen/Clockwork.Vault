@@ -10,6 +10,7 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
             return new Artist
             {
                 Source = SourceEnum.Tidal,
+                SourceId = tidalArtist.Id,
 
                 Name = tidalArtist.Name
             };
@@ -20,7 +21,8 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
             return new Album
             {
                 Source = SourceEnum.Tidal,
-
+                SourceId = tidalAlbum.Id,
+                
                 Title = tidalAlbum.Title,
                 Version = tidalAlbum.Version,
                 Duration = tidalAlbum.Duration,

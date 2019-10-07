@@ -15,10 +15,10 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
 
         public string InsertArtist(Artist artist)
         {
-            var existingRecord = _context.Artists.FirstOrDefault(p => p.Name == artist.Name);
+            var existingRecord = _context.Artists.FirstOrDefault(p => p.SourceId == artist.SourceId && p.Source == artist.Source);
 
             if (existingRecord != null)
-                return $"Record exists: artist with name {existingRecord.Name}";
+                return $"Record exists: artist with name {existingRecord.Name} from source {artist.Source}, ID {artist.SourceId}";
 
             _context.Artists.Add(artist);
 
@@ -32,10 +32,7 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
             if (exactMatch != null)
                 return $"Record exists: album with title {exactMatch.Title}";
 
-            // TODO WIP
-            var existingRecord = _context.Albums.FirstOrDefault(p => p.Title == album.Title
-                                                                     && p.Version == album.Version
-                                                                     && p.Source == album.Source);
+            var existingRecord = _context.Albums.FirstOrDefault(p => p.SourceId == album.SourceId && p.Source == album.Source);
 
             if (existingRecord != null)
                 return $"Record exists: album with title {existingRecord.Title}";

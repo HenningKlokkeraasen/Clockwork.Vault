@@ -2,6 +2,7 @@
 
 namespace Clockwork.Vault.Dao.Models.Master
 {
+    // TODO rename all to prefix Master
     public class Album : MusicalWorkBase
     {
         public int NumberOfTracks { get; set; }
