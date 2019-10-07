@@ -1,7 +1,6 @@
 ﻿body {
     padding-top: 10px;
     padding-bottom: 10px;
-
     font-family: Helvetica, Arial, sans-serif;
     background: #202020;
     color: #e4e4e4;
@@ -10,6 +9,11 @@
 a {
     color: #e4e4e4;
 }
+
+    a:active, a:hover {
+        background: #e4e4e4;
+        color: rgb(52, 79, 98);
+    }
 
 header,
 footer,
