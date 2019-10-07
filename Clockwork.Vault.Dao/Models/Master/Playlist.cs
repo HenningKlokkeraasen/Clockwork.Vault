@@ -14,11 +14,11 @@ namespace Clockwork.Vault.Dao.Models.Master
         public int NumberOfTracks { get; set; }
         public int Duration { get; set; }
         public int CreatorId { get; set; }
-        public virtual Creator Creator { get; set; }
+        //public virtual Creator Creator { get; set; }
+
+        public SourceEnum Source { get; set; }
         
         // The ID the entity has in the source
         public string SourceId { get; set; }
-
-        public SourceEnum Source { get; set; }
     }
 }

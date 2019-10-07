@@ -40,6 +40,7 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
             return new Track
             {
                 Source = SourceEnum.Tidal,
+                SourceId = tidalTrack.Id,
 
                 Title = tidalTrack.Title,
                 Version = tidalTrack.Version,

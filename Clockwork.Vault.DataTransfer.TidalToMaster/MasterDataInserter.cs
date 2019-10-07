@@ -49,10 +49,7 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
             if (exactMatch != null)
                 return $"Record exists: track with title {exactMatch.Title}";
 
-            // TODO WIP
-            var existingRecord = _context.Tracks.FirstOrDefault(p => p.Title == track.Title
-                                                                     && p.Version == track.Version
-                                                                     && p.Source == track.Source);
+            var existingRecord = _context.Tracks.FirstOrDefault(p => p.SourceId == track.SourceId && p.Source == track.Source);
 
             if (existingRecord != null)
                 return $"Record exists: track with title {existingRecord.Title}";
