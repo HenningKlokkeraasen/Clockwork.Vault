@@ -65,6 +65,10 @@
       <Project>{b2132870-9c21-492a-a47c-f56804f29675}</Project>
       <Name>Clockwork.Vault.Dao</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Clockwork.Vault.Query.Master\Clockwork.Vault.Query.Master.csproj">
+      <Project>{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}</Project>
+      <Name>Clockwork.Vault.Query.Master</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Clockwork.Vault.Query.Tidal\Clockwork.Vault.Query.Tidal.csproj">
       <Project>{686fe782-ba0a-4b30-bc30-d41a50dfee20}</Project>
       <Name>Clockwork.Vault.Query.Tidal</Name>

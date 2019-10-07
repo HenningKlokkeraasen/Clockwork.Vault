@@ -69,5 +69,18 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
                 CreatorId = tidalPlaylist.CreatorId
             };
         }
+
+        public static AlbumArtist Map(TidalAlbumArtist tidalAlbumArtist, Album album, Artist artist)
+        {
+            return new AlbumArtist
+            {
+                Source = SourceEnum.Tidal,
+                SourceId = tidalAlbumArtist.AppGeneratedId.ToString(),
+
+                Type = tidalAlbumArtist.Type,
+                ArtistId = artist.AppGeneratedId,
+                AlbumId = album.AppGeneratedId
+            };
+        }
     }
 }

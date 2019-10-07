@@ -43,6 +43,13 @@ namespace Clockwork.Vault.WebApp.Controllers
             return View("~/Views/Shared/Result.cshtml", vm);
         }
 
+        public ActionResult TransferAlbumArtists()
+        {
+            GetInMemContextOrEstablish();
+            var vm = Orchestrator.TransferAlbumArtists();
+            return View("~/Views/Shared/Result.cshtml", vm);
+        }
+
         private void GetInMemContextOrEstablish() => _vaultContext = new VaultContext();
     }
 }

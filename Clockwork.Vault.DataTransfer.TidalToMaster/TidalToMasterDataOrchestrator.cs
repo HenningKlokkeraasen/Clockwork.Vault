@@ -2,6 +2,8 @@
 using System.Linq;
 using Clockwork.Vault.Core.Models;
 using Clockwork.Vault.Dao;
+using Clockwork.Vault.Dao.Models.Master;
+using Clockwork.Vault.Query.Master;
 using Clockwork.Vault.Query.Tidal;
 
 namespace Clockwork.Vault.DataTransfer.TidalToMaster
@@ -10,12 +12,14 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
     {
         private readonly VaultContext _context;
         private readonly TidalOrchestrator _tidalOrchestrator;
+        private readonly MasterDataOrchestrator _masterDataOrchestrator;
         private readonly MasterDataInserter _masterDataInserter;
 
         public TidalToMasterDataOrchestrator(VaultContext context)
         {
             _context = context;
             _tidalOrchestrator = new TidalOrchestrator();
+            _masterDataOrchestrator = new MasterDataOrchestrator(_context);
             _masterDataInserter = new MasterDataInserter(_context);
         }
 
@@ -103,6 +107,55 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
             log.Statistics = CalculateStatistics(log.Messages);
 
             log.Title = "Tidal to Master: Transfer Playlists";
+
+            return log;
+        }
+
+        public Log TransferAlbumArtists()
+        {
+            var log = new Log();
+
+            var tidalAlbumArtists = _tidalOrchestrator.AlbumArtists;
+
+            foreach (var tidalAlbumArtist in tidalAlbumArtists)
+            {
+                var artistId = tidalAlbumArtist.ArtistId;
+                var albumId = tidalAlbumArtist.AlbumId;
+
+                var artistsInMaster = _masterDataOrchestrator.GetArtists(SourceEnum.Tidal, artistId);
+                var albumsInMaster = _masterDataOrchestrator.GetAlbums(SourceEnum.Tidal, albumId);
+
+                string msg;
+                if (!artistsInMaster.Any())
+                {
+                    msg = $"No artists found with ID {artistId}";
+                }
+                else if (artistsInMaster.Count > 1)
+                {
+                    msg = $"More than 1 artist found with ID {artistId}";
+                }
+                else if (!albumsInMaster.Any())
+                {
+                    msg = $"No albums found with ID {albumId}";
+                }
+                else if (albumsInMaster.Count > 1)
+                {
+                    msg = $"More than 1 album found with ID {albumId}";
+                }
+                else
+                {
+                    var albumArtist = TidalToMasterDataMapper.Map(tidalAlbumArtist, albumsInMaster.FirstOrDefault(), artistsInMaster.FirstOrDefault());
+                    msg = _masterDataInserter.InsertAlbumArtist(albumArtist);
+                }
+
+                log.Messages.Add(msg);
+            }
+
+            _context.SaveChanges();
+
+            log.Statistics = CalculateStatistics(log.Messages);
+
+            log.Title = "Tidal to Master: Transfer Album Artists";
 
             return log;
         }

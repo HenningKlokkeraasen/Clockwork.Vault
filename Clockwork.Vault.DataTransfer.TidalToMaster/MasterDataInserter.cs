@@ -73,5 +73,18 @@ namespace Clockwork.Vault.DataTransfer.TidalToMaster
 
             return $"Inserted playlist {playlist.Title}";
         }
+
+        public string InsertAlbumArtist(AlbumArtist albumArtist)
+        {
+            var exactMatch = _context.AlbumArtists.FirstOrDefault(p => p.SourceId == albumArtist.SourceId
+                                                                       && p.Source == albumArtist.Source);
+
+            if (exactMatch != null)
+                return $"Record exists: album artist with app generated ID {exactMatch.AppGeneratedId}";
+
+            _context.AlbumArtists.Add(albumArtist);
+
+            return $"Inserted artist {albumArtist.ArtistId} for album {albumArtist.AlbumId}";
+        }
     }
 }
