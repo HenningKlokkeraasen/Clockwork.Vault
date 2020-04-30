@@ -25,6 +25,33 @@ div#main {
     background: rgb(52, 79, 98);
 }
 
+p, h1, h2, h3, h4, h5, h6, ul, ol, menu {
+    margin: 3px;
+}
+
+menu#main-menu {
+    padding: 0;
+}
+    menu#main-menu ul {
+        padding: 0;
+    }
+        menu#main-menu ul li {
+            display: inline;
+            list-style-type: none;
+        }
+
+            menu#main-menu ul li:after {
+                content: ' | '
+            }
+
+                menu#main-menu ul li:last-child:after {
+                    content: ''
+                }
+
+table th {
+    text-align: left;
+}
+
 /*
     rgb(188, 209, 178) pale green
     rgb(187, 179, 132) sand

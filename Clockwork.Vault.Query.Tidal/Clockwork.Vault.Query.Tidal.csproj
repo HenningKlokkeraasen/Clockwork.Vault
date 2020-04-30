@@ -51,8 +51,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TidalOrchestrator.cs" />
     <Compile Include="TidalRepository.cs" />
+    <Compile Include="ViewModels\Grouped\ItemsGroupedByIsFavorite.cs" />
     <Compile Include="ViewModels\TidalAlbumExpanded.cs" />
+    <Compile Include="ViewModels\TidalArtistExpanded.cs" />
     <Compile Include="ViewModels\TidalPlaylistExpanded.cs" />
+    <Compile Include="ViewModels\Grouped\TidalPlaylistsGrouped.cs" />
     <Compile Include="ViewModels\TidalTrackExpanded.cs" />
   </ItemGroup>
   <ItemGroup>

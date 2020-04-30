@@ -1,0 +1,17 @@
+﻿@model IList<Clockwork.Vault.Query.Tidal.ViewModels.Grouped.TidalPlaylistsGrouped>
+
+@Html.Partial("Breadcrumbs", new List<MvcHtmlString>())
+
+<h1>Playlists</h1>
+
+@foreach (var group in Model)
+{
+    <h2>By @group.Creator</h2>
+    <p>Total: @group.Playlists.Count</p>
+    <ul>
+        @foreach (var playlist in group.Playlists.OrderBy(p => p.Title))
+        {
+            <li>@Html.ActionLink(playlist.Title, "Playlists", new { id = playlist.Uuid })</li>
+        }
+    </ul>
+}

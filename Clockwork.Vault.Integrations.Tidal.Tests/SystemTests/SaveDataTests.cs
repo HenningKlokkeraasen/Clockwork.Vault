@@ -15,12 +15,17 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
     {
         private OpenTidlSession _openTidlSession;
         private VaultContext _vaultContext;
+        private SaveTidalDataOrchestrator _orchestrator;
+        private TidalIntegrator _tidalIntegrator;
 
         private static readonly ILog Log = LogManager.GetLogger("Default");
 
         public SaveDataTests()
         {
             XmlConfigurator.Configure();
+            var token = ConfigurationManager.AppSettings["tidal_token"];
+            _tidalIntegrator = new TidalIntegrator(token);
+            _orchestrator = new SaveTidalDataOrchestrator(token);
         }
 
         [Test]
@@ -30,7 +35,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
 
             GetInMemContextOrEstablish();
             await GetInMemSessionOrLoginAsync();
-            await SaveTidalDataOrchestrator.SavePlaylists(_openTidlSession, _vaultContext);
+            await _orchestrator.SavePlaylists(_openTidlSession, _vaultContext);
         }
 
         [Test]
@@ -40,7 +45,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
 
             GetInMemContextOrEstablish();
             await GetInMemSessionOrLoginAsync();
-            await SaveTidalDataOrchestrator.SaveUserFavPlaylists(_openTidlSession, _vaultContext);
+            await _orchestrator.SaveUserFavPlaylists(_openTidlSession, _vaultContext);
         }
 
         [Test]
@@ -50,7 +55,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
 
             GetInMemContextOrEstablish();
             await GetInMemSessionOrLoginAsync();
-            await SaveTidalDataOrchestrator.SaveUserFavAlbums(_openTidlSession, _vaultContext);
+            await _orchestrator.SaveUserFavAlbums(_openTidlSession, _vaultContext);
         }
 
         [Test]
@@ -60,7 +65,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
 
             GetInMemContextOrEstablish();
             await GetInMemSessionOrLoginAsync();
-            await SaveTidalDataOrchestrator.SaveUserFavTracks(_openTidlSession, _vaultContext);
+            await _orchestrator.SaveUserFavTracks(_openTidlSession, _vaultContext);
         }
 
         [Test]
@@ -70,7 +75,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
 
             GetInMemContextOrEstablish();
             await GetInMemSessionOrLoginAsync();
-            await SaveTidalDataOrchestrator.SaveUserFavArtists(_openTidlSession, _vaultContext);
+            await _orchestrator.SaveUserFavArtists(_openTidlSession, _vaultContext);
         }
 
         [Test]
@@ -83,7 +88,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
             {
                 SleepTimeInSeconds = 1
             };
-            await SaveTidalDataOrchestrator.EnsureAlbumUpc(_vaultContext, iterationSettings);
+            await _orchestrator.EnsureAlbumUpc(_vaultContext, iterationSettings);
         }
 
         [Test]
@@ -96,7 +101,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
             {
                 SleepTimeInSeconds = 1
             };
-            await SaveTidalDataOrchestrator.EnsureTrackIsrc(_vaultContext, iterationSettings);
+            await _orchestrator.EnsureTrackIsrc(_vaultContext, iterationSettings);
         }
 
         private void GetInMemContextOrEstablish() => _vaultContext = new VaultContext();
@@ -104,12 +109,12 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.SystemTests
         private async Task GetInMemSessionOrLoginAsync() 
             => _openTidlSession = _openTidlSession ?? await LoginUserAsync();
 
-        private static Task<OpenTidlSession> LoginUserAsync()
+        private Task<OpenTidlSession> LoginUserAsync()
         {
             var appSettingsReader = new AppSettingsReader();
             var username = appSettingsReader.GetValue("tidal.username", typeof(string)) as string;
             var password = appSettingsReader.GetValue("tidal.password", typeof(string)) as string;
-            return TidalIntegrator.LoginUserAsync(username, password);
+            return _tidalIntegrator.LoginUserAsync(username, password);
         }
     }
 }

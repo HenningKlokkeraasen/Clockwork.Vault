@@ -59,6 +59,7 @@
     <Compile Include="Models\Master\TrackArtist.cs" />
     <Compile Include="Models\Master\Track.cs" />
     <Compile Include="Models\Master\TrackRelationBase.cs" />
+    <Compile Include="Models\Tidal\ManualData\TidalPlaylistCreatorManual.cs" />
     <Compile Include="Models\Tidal\TidalUserFavoriteAlbum.cs" />
     <Compile Include="Models\Tidal\TidalUserFavoriteArtist.cs" />
     <Compile Include="Models\Tidal\TidalUserFavoriteBase.cs" />

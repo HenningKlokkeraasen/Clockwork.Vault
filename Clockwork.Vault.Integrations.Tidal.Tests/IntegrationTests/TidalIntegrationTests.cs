@@ -12,6 +12,14 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.IntegrationTests
     public class TidalIntegrationTests
     {
         private OpenTidlSession _openTidlSession;
+
+        private TidalIntegrator _tidalIntegrator;
+
+        public TidalIntegrationTests()
+        {
+            var token = ConfigurationManager.AppSettings["tidal_token"];
+            _tidalIntegrator = new TidalIntegrator(token);
+        }
         
         [Test]
         public async Task Can_login_user()
@@ -69,12 +77,12 @@ namespace Clockwork.Vault.Integrations.Tidal.Tests.IntegrationTests
         private async Task GetInMemSessionOrLoginAsync() 
             => _openTidlSession = _openTidlSession ?? await LoginUserAsync();
 
-        private static Task<OpenTidlSession> LoginUserAsync()
+        private Task<OpenTidlSession> LoginUserAsync()
         {
             var appSettingsReader = new AppSettingsReader();
             var username = appSettingsReader.GetValue("tidal.username", typeof(string)) as string;
             var password = appSettingsReader.GetValue("tidal.password", typeof(string)) as string;
-            return TidalIntegrator.LoginUserAsync(username, password);
+            return _tidalIntegrator.LoginUserAsync(username, password);
         }
     }
 }

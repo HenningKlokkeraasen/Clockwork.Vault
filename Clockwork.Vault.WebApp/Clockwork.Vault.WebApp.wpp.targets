@@ -17,6 +17,9 @@
     <ConfigName Include="connectionStrings">
       <Ext>config</Ext>
     </ConfigName>
+    <ConfigName Include="appSettings">
+      <Ext>config</Ext>
+    </ConfigName>
   </ItemGroup>
 
   <Target Name="CopyOrTransformConfig" BeforeTargets="BeforeBuild;Build;Rebuild;Deploy">

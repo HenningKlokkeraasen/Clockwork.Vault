@@ -12,17 +12,24 @@ using OpenTidl.Models.Base;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 {
-    public static class SaveTidalDataOrchestrator
+    public class SaveTidalDataOrchestrator
     {
+        private readonly TidalIntegrator _tidalIntegrator;
+
         private static readonly ILog Log = LogManager.GetLogger("Default");
 
-        public static async Task SavePlaylists(OpenTidlSession session, VaultContext context, int limit = 9999)
+        public SaveTidalDataOrchestrator(string token)
+        {
+            _tidalIntegrator = new TidalIntegrator(token);
+        }
+
+        public async Task SavePlaylists(OpenTidlSession session, VaultContext context, int limit = 9999)
         {
             var playlistsResult = await session.GetUserPlaylists(limit);
             await SavePlaylistsAndTracksAndAlbumsAndArtists(session, context, playlistsResult.Items);
         }
 
-        public static async Task SaveUserFavPlaylists(OpenTidlSession session, VaultContext context, int limit = 9999)
+        public async Task SaveUserFavPlaylists(OpenTidlSession session, VaultContext context, int limit = 9999)
         {
             var favsResult = await session.GetFavoritePlaylists(limit);
             var items = favsResult.Items.Select(i => i.Item).ToList();
@@ -30,7 +37,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             MapAndInsertPlaylistFavorites(context, favsResult.Items);
         }
 
-        public static async Task SaveUserFavTracks(OpenTidlSession session, VaultContext context, int limit = 9999)
+        public async Task SaveUserFavTracks(OpenTidlSession session, VaultContext context, int limit = 9999)
         {
             var favsResult = await session.GetFavoriteTracks(limit);
             var items = favsResult.Items.Select(i => i.Item).ToList();
@@ -44,7 +51,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             MapAndInsertTrackFavorites(context, favsResult.Items);
         }
 
-        public static async Task SaveUserFavAlbums(OpenTidlSession session, VaultContext context, int limit = 9999)
+        public async Task SaveUserFavAlbums(OpenTidlSession session, VaultContext context, int limit = 9999)
         {
             var favsResult = await session.GetFavoriteAlbums(limit);
             var items = favsResult.Items.Select(i => i.Item).ToList();
@@ -60,7 +67,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             MapAndInsertAlbumFavorites(context, favsResult.Items);
         }
 
-        public static async Task SaveUserFavArtists(OpenTidlSession session, VaultContext context, int limit = 9999)
+        public async Task SaveUserFavArtists(OpenTidlSession session, VaultContext context, int limit = 9999)
         {
             var favsResult = await session.GetFavoriteArtists(limit);
             var items = favsResult.Items.Select(i => i.Item).ToList();
@@ -71,9 +78,9 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             MapAndInsertArtistFavorites(context, favsResult.Items);
         }
 
-        private static async Task SaveAlbumTracks(VaultContext context, AlbumModel item)
+        private async Task SaveAlbumTracks(VaultContext context, AlbumModel item)
         {
-            var tracks = await TidalIntegrator.GetAlbumTracks(item.Id);
+            var tracks = await _tidalIntegrator.GetAlbumTracks(item.Id);
             if (tracks == null)
             {
                 Console.WriteLine($"Could not get album tracks for album {item.Title} ({item.Id})");
@@ -82,23 +89,36 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
 
             MapAndInsertTracks(context, tracks.Items);
+
+            foreach (var track in tracks.Items)
+            {
+                var insertedArtists = new List<ArtistModel>();
+
+                SaveArtist(context, insertedArtists, track.Artist);
+
+                foreach (var trackArtist in track.Artists)
+                    SaveArtist(context, insertedArtists, trackArtist);
+
+                MapAndInsertTrackArtists(context, track);
+            }
+
             MapAndInsertAlbumTracks(context, tracks.Items, item);
         }
 
-        public static async Task EnsureAlbumUpc(VaultContext context, IterationSettings iterationSettings)
+        public async Task EnsureAlbumUpc(VaultContext context, IterationSettings iterationSettings)
         {
             var queryable = from a in context.TidalAlbums.Where(a => a.Upc == null)
                             select a;
             // https://stackoverflow.com/questions/2113498/sqlexception-from-entity-framework-new-transaction-is-not-allowed-because-ther
             var albumsWithoutUpc = queryable.ToList();
 
-            var sleepTimeInSeconds = iterationSettings?.SleepTimeInSeconds > 0 
-                ? iterationSettings.SleepTimeInSeconds 
+            var sleepTimeInSeconds = iterationSettings?.SleepTimeInSeconds > 0
+                ? iterationSettings.SleepTimeInSeconds
                 : 0;
 
             foreach (var tidalAlbum in albumsWithoutUpc)
             {
-                var albumResult = await TidalIntegrator.GetAlbum(tidalAlbum.Id);
+                var albumResult = await _tidalIntegrator.GetAlbum(tidalAlbum.Id);
 
                 if (albumResult == null)
                 {
@@ -115,20 +135,20 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
         }
 
-        public static async Task EnsureTrackIsrc(VaultContext context, IterationSettings iterationSettings)
+        public async Task EnsureTrackIsrc(VaultContext context, IterationSettings iterationSettings)
         {
             var queryable = from a in context.TidalTracks.Where(a => a.Isrc == null)
-                select a;
+                            select a;
             // https://stackoverflow.com/questions/2113498/sqlexception-from-entity-framework-new-transaction-is-not-allowed-because-ther
             var tracksWithoutIsrc = queryable.ToList();
 
-            var sleepTimeInSeconds = iterationSettings?.SleepTimeInSeconds > 0 
-                ? iterationSettings.SleepTimeInSeconds 
+            var sleepTimeInSeconds = iterationSettings?.SleepTimeInSeconds > 0
+                ? iterationSettings.SleepTimeInSeconds
                 : 0;
 
             foreach (var tidalTrack in tracksWithoutIsrc)
             {
-                var trackResult = await TidalIntegrator.GetTrack(tidalTrack.Id);
+                var trackResult = await _tidalIntegrator.GetTrack(tidalTrack.Id);
 
                 if (trackResult == null)
                 {
@@ -145,7 +165,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
         }
 
-        private static async Task SavePlaylistsAndTracksAndAlbumsAndArtists(OpenTidlSession session, VaultContext context, IList<PlaylistModel> playlistsItems)
+        private async Task SavePlaylistsAndTracksAndAlbumsAndArtists(OpenTidlSession session, VaultContext context, IList<PlaylistModel> playlistsItems)
         {
             MapAndInsertCreators(context, playlistsItems);
 
@@ -164,7 +184,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
         }
 
-        private static async Task GetAlbumsAndSaveAlbumsAndArtists(VaultContext context, IEnumerable<TrackModel> tracksItems,
+        private async Task GetAlbumsAndSaveAlbumsAndArtists(VaultContext context, IEnumerable<TrackModel> tracksItems,
              ICollection<AlbumModel> insertedAlbums, ICollection<ArtistModel> insertedArtists)
         {
             foreach (var track in tracksItems)
@@ -176,6 +196,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                         insertedAlbums.Add(albumResult);
                 }
 
+                SaveArtist(context, insertedArtists, track.Artist);
+
                 foreach (var trackArtist in track.Artists)
                     SaveArtist(context, insertedArtists, trackArtist);
 
@@ -183,7 +205,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             }
         }
 
-        private static async Task<AlbumModel> GetAlbumAndSaveAlbumAndArtists(VaultContext context,
+        private async Task<AlbumModel> GetAlbumAndSaveAlbumAndArtists(VaultContext context,
             ICollection<ArtistModel> insertedArtists, AlbumModel item)
         {
             var existingRecord = context.TidalAlbums.FirstOrDefault(p => p.Id == item.Id);
@@ -201,10 +223,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             if (albumResult == null)
                 return null;
 
-            if (albumResult.Artists == null || !albumResult.Artists.Any())
-            {
-                //TODO
-            }
+            SaveArtist(context, insertedArtists, albumResult.Artist);
+
             foreach (var albumArtist in albumResult.Artists ?? Enumerable.Empty<ArtistModel>())
                 SaveArtist(context, insertedArtists, albumArtist);
 
@@ -212,22 +232,23 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             return albumResult;
         }
 
-        private static void SaveAlbumAndArtists(VaultContext context, ICollection<ArtistModel> insertedArtists, AlbumModel item)
+        private void SaveAlbumAndArtists(VaultContext context, ICollection<ArtistModel> insertedArtists, AlbumModel item)
         {
             MapAndInsertAlbum(context, item);
 
-            if (item.Artists == null || !item.Artists.Any())
-            {
-                //TODO
-            }
+            SaveArtist(context, insertedArtists, item.Artist);
+
             foreach (var albumArtist in item.Artists ?? Enumerable.Empty<ArtistModel>())
                 SaveArtist(context, insertedArtists, albumArtist);
 
             MapAndInsertAlbumArtists(context, item);
         }
-        
-        private static void SaveArtist(VaultContext context, ICollection<ArtistModel> insertedArtists, ArtistModel item)
+
+        private void SaveArtist(VaultContext context, ICollection<ArtistModel> insertedArtists, ArtistModel item)
         {
+            if (insertedArtists == null || item == null)
+                return;
+            
             if (insertedArtists.All(a => a.Id != item.Id))
             {
                 MapAndInsertArtist(context, item);
@@ -325,7 +346,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
             return artist;
         }
 
-        private static async Task<AlbumModel> GetAlbumAndMapAndInsert(VaultContext context, AlbumModel lesserAlbumModel)
+        private async Task<AlbumModel> GetAlbumAndMapAndInsert(VaultContext context, AlbumModel lesserAlbumModel)
         {
             var existingRecord = context.TidalAlbums.FirstOrDefault(p => p.Id == lesserAlbumModel.Id);
             if (existingRecord != null)
@@ -338,7 +359,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                 }
             }
 
-            var albumResult = await TidalIntegrator.GetAlbum(lesserAlbumModel.Id);
+            var albumResult = await _tidalIntegrator.GetAlbum(lesserAlbumModel.Id);
             if (albumResult == null)
             {
                 Log.Warn($"Could not get album {lesserAlbumModel.Id} {lesserAlbumModel.Title} - inserting lesser album model");
@@ -353,26 +374,38 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 
         private static void MapAndInsertTrackArtists(VaultContext context, TrackModel track)
         {
-            if (track?.Artists == null)
-                return;
-
-            var trackArtists = track.Artists.Select(i => TidalDaoMapper.MapTidalTrackArtistDao(track, i));
-
-            foreach (var trackArtist in trackArtists)
+            if (track?.Artist != null)
+            {
+                var trackArtist = TidalDaoMapper.MapTidalTrackArtistDao(track, track.Artist);
                 TidalDbInserter.InsertTrackArtist(context, trackArtist);
+            }
+
+            if (track?.Artists != null)
+            {
+                var trackArtists = track.Artists.Select(i => TidalDaoMapper.MapTidalTrackArtistDao(track, i));
+
+                foreach (var trackArtist in trackArtists)
+                    TidalDbInserter.InsertTrackArtist(context, trackArtist);
+            }
 
             context.SaveChanges();
         }
 
         private static void MapAndInsertAlbumArtists(VaultContext context, AlbumModel album)
         {
-            if (album?.Artists == null)
-                return;
-
-            var albumArtists = album.Artists.Select(i => TidalDaoMapper.MapTidalAlbumArtistDao(album, i));
-
-            foreach (var albumArtist in albumArtists)
+            if (album?.Artist != null)
+            {
+                var albumArtist = TidalDaoMapper.MapTidalAlbumArtistDao(album, album.Artist);
                 TidalDbInserter.InsertAlbumArtist(context, albumArtist);
+            }
+
+            if (album?.Artists != null)
+            {
+                var albumArtists = album.Artists.Select(i => TidalDaoMapper.MapTidalAlbumArtistDao(album, i));
+
+                foreach (var albumArtist in albumArtists)
+                    TidalDbInserter.InsertAlbumArtist(context, albumArtist);
+            }
 
             context.SaveChanges();
         }

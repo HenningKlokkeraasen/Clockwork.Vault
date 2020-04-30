@@ -76,8 +76,7 @@ namespace Clockwork.Vault.WebApi.Controllers
 
             return NotFound();
         }
-
-
+        
         [HttpGet]
         public IHttpActionResult Tracks(int id, [FromUri]bool expand = false)
         {

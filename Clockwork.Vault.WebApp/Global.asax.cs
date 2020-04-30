@@ -9,6 +9,7 @@ namespace Clockwork.Vault.WebApp
         {
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            ViewEngines.Engines.Add(new AppViewEngine());
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
     }

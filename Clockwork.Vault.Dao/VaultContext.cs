@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using Clockwork.Vault.Dao.Models.Master;
 using Clockwork.Vault.Dao.Models.Tidal;
+using Clockwork.Vault.Dao.Models.Tidal.ManualData;
 using Clockwork.Vault.Integrations.Tidal.Dao.Migrations;
 
 namespace Clockwork.Vault.Dao
@@ -52,5 +53,8 @@ namespace Clockwork.Vault.Dao
         public DbSet<TidalUserFavoriteTrack> TidalFavoriteTracks { get; set; }
         public DbSet<TidalUserFavoriteArtist> TidalFavoriteArtists { get; set; }
         public DbSet<TidalUserFavoritePlaylist> TidalFavoritePlaylists { get; set; }
+
+        // Tidal - manually entered data
+        public DbSet<TidalPlaylistCreatorManual> TidalPlaylistCreators { get; set; }
     }
 }
