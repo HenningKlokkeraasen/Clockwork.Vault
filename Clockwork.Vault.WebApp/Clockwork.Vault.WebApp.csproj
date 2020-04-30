@@ -126,6 +126,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AppViewEngine.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -182,6 +183,21 @@
     <Content Include="Views\TidalToMaster\Index.cshtml" />
     <Content Include="Views\Shared\Result.cshtml" />
     <Content Include="Views\Tidal\Index.cshtml" />
+    <Content Include="Views\Tidal\Artists.cshtml" />
+    <Content Include="Views\Tidal\Albums.cshtml" />
+    <Content Include="Views\Tidal\Tracks.cshtml" />
+    <Content Include="Views\Tidal\Playlists.cshtml" />
+    <Content Include="Views\Tidal\Artist.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\Tidal\Album.cshtml" />
+    <Content Include="Views\Shared\Parts\Breadcrumbs.cshtml" />
+    <Content Include="Views\Tidal\Track.cshtml" />
+    <Content Include="Views\Tidal\Playlist.cshtml" />
+    <Content Include="Views\Tidal\Parts\FavoritesShortcuts.cshtml" />
+    <Content Include="Views\Tidal\Parts\FavoritesAnchor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Shared\Partial\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

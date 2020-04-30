@@ -1,0 +1,24 @@
+﻿@model Clockwork.Vault.Query.Tidal.ViewModels.TidalAlbumExpanded
+
+@Html.Partial("Breadcrumbs", new List<MvcHtmlString>
+{
+    Html.ActionLink("Albums", "Albums", new { id = "" })
+})
+
+<h1>@Model.Album.Title</h1>
+
+<h2>Artists:</h2>
+<ul>
+    @foreach (var artist in Model.Artists)
+    {
+        <li>@Html.ActionLink(artist.Name, "Artists", new { id = artist.Id })</li>
+    }
+</ul>
+
+<h2>Tracks:</h2>
+<ol>
+    @foreach (var track in Model.Tracks.OrderBy(t => t.Track.TrackNumber))
+    {
+        <li>@Html.ActionLink(track.Track.Title, "Tracks", new { id = track.Track.Id })</li>
+    }
+</ol>

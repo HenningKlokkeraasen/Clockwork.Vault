@@ -1,0 +1,21 @@
+﻿@model IList<Clockwork.Vault.Query.Tidal.ViewModels.Grouped.ItemsGroupedByIsFavorite<Clockwork.Vault.Dao.Models.Tidal.TidalArtist>>
+
+@Html.Partial("Breadcrumbs", new List<MvcHtmlString>())
+
+<h1>Artists</h1>
+
+@Html.Partial("~/Views/Tidal/Parts/FavoritesShortcuts.cshtml")
+
+@foreach (var group in Model)
+{
+    @Html.Partial("~/Views/Tidal/Parts/FavoritesAnchor.cshtml", group.IsFavorite)
+
+    <p>Total: @group.Items.Count</p>
+
+    <ul>
+        @foreach (var artist in group.Items.OrderBy(a => a.Name))
+        {
+            <li>@Html.ActionLink(artist.Name, "Artists", new { id = artist.Id })</li>
+        }
+    </ul>
+}

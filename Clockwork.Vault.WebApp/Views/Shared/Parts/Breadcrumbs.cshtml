@@ -1,0 +1,14 @@
+﻿@model IList<MvcHtmlString>
+
+<div id="breadcrumbs">
+    @Html.ActionLink("Tidal", "Index", "Tidal")
+    
+    @if (Model != null)
+    {
+        foreach (var crumb in Model)
+        {
+            @: / 
+            @crumb
+        }
+    }
+</div>
