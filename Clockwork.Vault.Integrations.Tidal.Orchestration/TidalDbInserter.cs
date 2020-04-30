@@ -143,7 +143,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
         {
             var existingRecord = context.TidalTrackArtists
                 .FirstOrDefault(p => p.TrackId == trackArtist.TrackId
-                                     && p.ArtistId == trackArtist.ArtistId);
+                                     && p.ArtistId == trackArtist.ArtistId
+                                     && p.Type == trackArtist.Type);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: track-artist {existingRecord.TrackId} {existingRecord.ArtistId}");
@@ -159,7 +160,8 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
         {
             var existingRecord = context.TidalAlbumArtists
                 .FirstOrDefault(p => p.AlbumId == albumArtist.AlbumId
-                                     && p.ArtistId == albumArtist.ArtistId);
+                                     && p.ArtistId == albumArtist.ArtistId
+                                     && p.Type == albumArtist.Type);
             if (existingRecord != null)
             {
                 Log.Info($"Record exists: album-artist {existingRecord.AlbumId} {existingRecord.ArtistId}");
