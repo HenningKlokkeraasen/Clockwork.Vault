@@ -3,17 +3,7 @@
     padding-bottom: 10px;
     font-family: Helvetica, Arial, sans-serif;
     background: #202020;
-    color: #e4e4e4;
 }
-
-a {
-    color: #e4e4e4;
-}
-
-    a:active, a:hover {
-        background: #e4e4e4;
-        color: rgb(52, 79, 98);
-    }
 
 header,
 footer,
@@ -22,8 +12,22 @@ div#main {
     margin: auto;
     border: 1px solid #e4e4e4;
     padding: 10px;
-    background: rgb(52, 79, 98);
+    background: rgb(255, 214, 67);
+    color: #202020;
 }
+
+    header a,
+    footer a,
+    div#main a {
+        color: #202020;
+    }
+
+        header a:active, header a:hover,
+        footer a:active, footer a:hover,
+        div#main a:active, div#main a:hover {
+            background: #202020;
+            color: rgb(255, 214, 67);
+        }
 
 p, h1, h2, h3, h4, h5, h6, ul, ol, menu {
     margin: 3px;
