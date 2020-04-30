@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B2132870-9C21-492A-A47C-F56804F29675}</ProjectGuid>
+    <ProjectGuid>{2185F760-0CE3-41AB-98B9-B4CCDF0B5FAD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Clockwork.Vault.Dao</RootNamespace>
-    <AssemblyName>Clockwork.Vault.Dao</AssemblyName>
+    <RootNamespace>Clockwork.Vault.DataTransfer.TidalToMaster</RootNamespace>
+    <AssemblyName>Clockwork.Vault.DataTransfer.TidalToMaster</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,6 +37,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -47,48 +51,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Core\AppGeneratedEntityBase.cs" />
-    <Compile Include="Models\Master\Creator.cs" />
-    <Compile Include="Models\Master\MusicalWorkBase.cs" />
-    <Compile Include="Models\Master\SourceEnum.cs" />
-    <Compile Include="Models\Master\Album.cs" />
-    <Compile Include="Models\Master\AlbumArtist.cs" />
-    <Compile Include="Models\Master\ArtistRelationBase.cs" />
-    <Compile Include="Models\Master\Playlist.cs" />
-    <Compile Include="Models\Master\PlaylistTrack.cs" />
-    <Compile Include="Models\Master\TrackArtist.cs" />
-    <Compile Include="Models\Master\Track.cs" />
-    <Compile Include="Models\Master\TrackRelationBase.cs" />
-    <Compile Include="Models\Tidal\TidalUserFavoriteAlbum.cs" />
-    <Compile Include="Models\Tidal\TidalUserFavoriteArtist.cs" />
-    <Compile Include="Models\Tidal\TidalUserFavoriteBase.cs" />
-    <Compile Include="Models\Tidal\TidalUserFavoritePlaylist.cs" />
-    <Compile Include="Models\Tidal\TidalUserFavoriteTrack.cs" />
-    <Compile Include="Models\Tidal\TidalAlbumTrack.cs" />
-    <Compile Include="Models\Tidal\TidalArtist.cs" />
-    <Compile Include="Models\Tidal\TidalAlbumArtist.cs" />
-    <Compile Include="Models\Master\AlbumTrack.cs" />
-    <Compile Include="Models\Tidal\TidalMusicalWorkBase.cs" />
-    <Compile Include="Models\Tidal\TidalIntIdBase.cs" />
-    <Compile Include="Migrations\VaultConfiguration.cs" />
-    <Compile Include="Models\Tidal\TidalArtistRelationBase.cs" />
-    <Compile Include="Models\Tidal\TidalPlaylistTrack.cs" />
-    <Compile Include="Models\Tidal\TidalTrackRelationBase.cs" />
+    <Compile Include="MasterDataInserter.cs" />
+    <Compile Include="TidalToMasterDataMapper.cs" />
+    <Compile Include="TidalToMasterDataOrchestrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Tidal\TidalCreator.cs" />
-    <Compile Include="Models\Master\Artist.cs" />
-    <Compile Include="Models\Tidal\TidalPlaylist.cs" />
-    <Compile Include="Models\Tidal\TidalTrackArtist.cs" />
-    <Compile Include="Models\Tidal\TidalAlbum.cs" />
-    <Compile Include="Models\Tidal\TidalTrack.cs" />
-    <Compile Include="Models\Master\FavoriteAlbum.cs" />
-    <Compile Include="Models\Master\FavoriteArtist.cs" />
-    <Compile Include="Models\Master\FavoriteBase.cs" />
-    <Compile Include="Models\Master\FavoritePlaylist.cs" />
-    <Compile Include="Models\Master\FavoriteTrack.cs" />
-    <Compile Include="VaultContext.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Clockwork.Vault.Core\Clockwork.Vault.Core.csproj">
+      <Project>{21A1B51D-A5A4-48E8-8C17-9DE10AC0408F}</Project>
+      <Name>Clockwork.Vault.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Clockwork.Vault.Dao\Clockwork.Vault.Dao.csproj">
+      <Project>{b2132870-9c21-492a-a47c-f56804f29675}</Project>
+      <Name>Clockwork.Vault.Dao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Clockwork.Vault.Query.Master\Clockwork.Vault.Query.Master.csproj">
+      <Project>{A8DCDEC8-0C7A-4C87-8AF8-71C944E1423D}</Project>
+      <Name>Clockwork.Vault.Query.Master</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Clockwork.Vault.Query.Tidal\Clockwork.Vault.Query.Tidal.csproj">
+      <Project>{686fe782-ba0a-4b30-bc30-d41a50dfee20}</Project>
+      <Name>Clockwork.Vault.Query.Tidal</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

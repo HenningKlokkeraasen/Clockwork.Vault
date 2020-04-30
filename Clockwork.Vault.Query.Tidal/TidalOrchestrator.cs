@@ -22,6 +22,8 @@ namespace Clockwork.Vault.Query.Tidal
 
         public IList<TidalTrack> Tracks => _tidalRepository.Tracks;
 
+        public IList<TidalAlbumArtist> AlbumArtists => _tidalRepository.AlbumArtists;
+
         public TidalArtist GetArtist(int id) => _tidalRepository.GetArtist(id);
 
         public TidalAlbum GetAlbum(int id) => _tidalRepository.GetAlbum(id);

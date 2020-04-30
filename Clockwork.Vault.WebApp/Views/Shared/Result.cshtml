@@ -1,0 +1,17 @@
+﻿@model Clockwork.Vault.Core.Models.Log
+
+<h2>@Model.Title</h2>
+
+<ul>
+    @foreach (var msg in Model.Statistics)
+    {
+        <li>@msg</li>
+    }
+</ul>
+    -------------------------------------
+<ul>
+    @foreach (var msg in Model.Messages)
+    {
+        <li>@msg</li>
+    }
+</ul>

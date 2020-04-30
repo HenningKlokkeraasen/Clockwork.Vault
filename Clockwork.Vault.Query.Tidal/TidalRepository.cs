@@ -23,6 +23,8 @@ namespace Clockwork.Vault.Query.Tidal
 
         internal IList<TidalTrack> Tracks => _vaultContext.TidalTracks.ProjectToList();
 
+        internal IList<TidalAlbumArtist> AlbumArtists => _vaultContext.TidalAlbumArtists.ProjectToList();
+
         internal TidalArtist GetArtist(int id) => _vaultContext.TidalArtists.FirstOrDefault(a => a.Id == id);
 
         internal TidalAlbum GetAlbum(int id) => _vaultContext.TidalAlbums.FirstOrDefault(a => a.Id == id);
