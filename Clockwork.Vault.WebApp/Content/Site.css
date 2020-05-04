@@ -39,17 +39,17 @@ menu#main-menu {
     menu#main-menu ul {
         padding: 0;
     }
-        menu#main-menu ul li {
-            display: inline;
+        menu#main-menu > ul > li {
             list-style-type: none;
         }
-
-            menu#main-menu ul li:after {
-                content: ' | '
+        
+            menu#main-menu > ul > li > ul > li {
+                list-style-type: none;
+                margin-left: 10px;
             }
 
-                menu#main-menu ul li:last-child:after {
-                    content: ''
+                menu#main-menu > ul > li > ul > li:before {
+                    content: '- ';
                 }
 
 table th {

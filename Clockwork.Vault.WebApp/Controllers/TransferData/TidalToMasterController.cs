@@ -2,7 +2,7 @@
 using Clockwork.Vault.Dao;
 using Clockwork.Vault.DataTransfer.TidalToMaster;
 
-namespace Clockwork.Vault.WebApp.Controllers
+namespace Clockwork.Vault.WebApp.Controllers.TransferData
 {
     public class TidalToMasterController : Controller
     {

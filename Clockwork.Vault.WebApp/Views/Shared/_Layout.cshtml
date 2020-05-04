@@ -12,8 +12,30 @@
         <menu id="main-menu">
             <ul>
                 <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("Tidal", "Index", "Tidal")</li>
-                <li>@Html.ActionLink("Tidal to Master", "Index", "TidalToMaster")</li>
+                <li>
+                    Data Import
+                    <ul>
+                        <li>@Html.ActionLink("Tidal Data Import", "Index", "TidalDataImport")</li>
+                    </ul>
+                </li>
+                <li>
+                    Data Sanitization
+                    <ul>
+                        <li>@Html.ActionLink("Tidal Data Sanitization", "Index", "TidalDataSanitize")</li>
+                    </ul>
+                </li>
+                <li>
+                    Data Movement
+                    <ul>
+                        <li>@Html.ActionLink("Tidal to Master", "Index", "TidalToMaster")</li>
+                    </ul>
+                </li>
+                <li>
+                    View Data
+                    <ul>
+                        <li>@Html.ActionLink("View Tidal Data", "Index", "Tidal")</li>
+                    </ul>
+                </li>
             </ul>
         </menu>
     </header>

@@ -130,8 +130,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SanitizeData\TidalDataSanitizeController.cs" />
     <Compile Include="Controllers\TidalController.cs" />
-    <Compile Include="Controllers\TidalToMasterController.cs" />
+    <Compile Include="Controllers\ImportData\TidalDataImportController.cs" />
+    <Compile Include="Controllers\TransferData\TidalToMasterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -159,6 +161,10 @@
     <ProjectReference Include="..\Clockwork.Vault.DataTransfer.TidalToMaster\Clockwork.Vault.DataTransfer.TidalToMaster.csproj">
       <Project>{2185F760-0CE3-41AB-98B9-B4CCDF0B5FAD}</Project>
       <Name>Clockwork.Vault.DataTransfer.TidalToMaster</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Clockwork.Vault.Integrations.Tidal.Orchestration\Clockwork.Vault.Integrations.Tidal.Orchestration.csproj">
+      <Project>{8A230145-CF3B-4185-89BA-1026F40FF1D2}</Project>
+      <Name>Clockwork.Vault.Integrations.Tidal.Orchestration</Name>
     </ProjectReference>
     <ProjectReference Include="..\Clockwork.Vault.Query.Tidal\Clockwork.Vault.Query.Tidal.csproj">
       <Project>{686FE782-BA0A-4B30-BC30-D41A50DFEE20}</Project>
@@ -195,10 +201,10 @@
     <Content Include="Views\Tidal\Playlist.cshtml" />
     <Content Include="Views\Tidal\Parts\FavoritesShortcuts.cshtml" />
     <Content Include="Views\Tidal\Parts\FavoritesAnchor.cshtml" />
+    <Content Include="Views\TidalDataImport\Index.cshtml" />
+    <Content Include="Views\TidalDataSanitize\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Shared\Partial\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
