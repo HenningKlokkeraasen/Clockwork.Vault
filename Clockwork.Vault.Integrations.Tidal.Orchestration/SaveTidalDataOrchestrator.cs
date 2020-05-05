@@ -237,6 +237,10 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration
                     SaveArtist(insertedArtists, trackArtist);
 
                 MapAndInsertTrackArtists(track);
+
+                var albumTrack = TidalDaoMapper.MapTidalAlbumTrackDao(track.Id, track.Album.Id, 0);
+                TidalDbInserter.InsertAlbumTrack(_vaultContext, albumTrack);
+                _vaultContext.SaveChanges();
             }
         }
 
