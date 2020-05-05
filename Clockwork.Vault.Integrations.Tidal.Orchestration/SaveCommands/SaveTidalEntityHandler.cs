@@ -100,6 +100,44 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SaveCommands
             _vaultContext.SaveChanges();
         }
 
+        internal void MapAndInsertAlbumArtists(AlbumModel album)
+        {
+            if (album?.Artist != null)
+            {
+                var albumArtist = TidalDaoMapper.MapTidalAlbumArtistDao(album, album.Artist);
+                TidalDbInserter.InsertAlbumArtist(_vaultContext, albumArtist);
+            }
+
+            if (album?.Artists != null)
+            {
+                var albumArtists = album.Artists.Select(i => TidalDaoMapper.MapTidalAlbumArtistDao(album, i));
+
+                foreach (var albumArtist in albumArtists)
+                    TidalDbInserter.InsertAlbumArtist(_vaultContext, albumArtist);
+            }
+
+            _vaultContext.SaveChanges();
+        }
+
+        internal void MapAndInsertTrackArtists(TrackModel track)
+        {
+            if (track?.Artist != null)
+            {
+                var trackArtist = TidalDaoMapper.MapTidalTrackArtistDao(track, track.Artist);
+                TidalDbInserter.InsertTrackArtist(_vaultContext, trackArtist);
+            }
+
+            if (track?.Artists != null)
+            {
+                var trackArtists = track.Artists.Select(i => TidalDaoMapper.MapTidalTrackArtistDao(track, i));
+
+                foreach (var trackArtist in trackArtists)
+                    TidalDbInserter.InsertTrackArtist(_vaultContext, trackArtist);
+            }
+
+            _vaultContext.SaveChanges();
+        }
+
         // Favorites
 
         internal void MapAndInsertPlaylistFavorites(IEnumerable<JsonListItem<PlaylistModel>> jsonListItems)
@@ -112,13 +150,10 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SaveCommands
             _vaultContext.SaveChanges();
         }
 
-        internal void MapAndInsertAlbumFavorites(IEnumerable<JsonListItem<AlbumModel>> jsonListItems)
+        internal void MapAndInsertAlbumFavorite(JsonListItem<AlbumModel> jsonListItem)
         {
-            var favs = jsonListItems.Select(TidalDaoMapper.MapTidalAlbumFavDao);
-
-            foreach (var fav in favs)
-                TidalDbInserter.InsertFavAlbum(_vaultContext, fav);
-
+            var fav = TidalDaoMapper.MapTidalAlbumFavDao(jsonListItem);
+            TidalDbInserter.InsertFavAlbum(_vaultContext, fav);
             _vaultContext.SaveChanges();
         }
 

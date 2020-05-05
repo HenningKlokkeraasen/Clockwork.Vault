@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SaveCommands\SaveTidalEntityHandler.cs" />
+    <Compile Include="SavePaths\SavePathBase.cs" />
+    <Compile Include="SavePaths\SaveUserFavAlbumsPath.cs" />
     <Compile Include="TidalDbInserter.cs" />
     <Compile Include="TidalDaoMapper.cs" />
     <Compile Include="IterationSettings.cs" />

@@ -12,6 +12,25 @@
 <ul>
     @foreach (var msg in Model.Messages)
     {
-        <li>@msg</li>
+        var strings = msg.Split('\t');
+        var numberOfIndents = strings.Length - 1;
+        if (numberOfIndents == 0)
+        {
+            <li>@msg</li>
+        }
+        else
+        {
+            <li>
+                @for (var i = 0; i < numberOfIndents; i++)
+                {
+                    @:<ul><li>
+                }
+                @msg
+                @for (var j = 0; j < numberOfIndents; j++)
+                {
+                    @:</li></ul>
+                }
+            </li>
+        }
     }
 </ul>
