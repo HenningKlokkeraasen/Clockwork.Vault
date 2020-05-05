@@ -13,6 +13,29 @@ using OpenTidl.Models;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration
 {
+    /// <summary>
+    /// The main entry point for saving Tidal data.
+    /// There are four user data sets that can be saved:
+    /// Favorite Artists,
+    /// Favorite Albums,
+    /// Favorite Tracks,
+    /// Favorite Playlists,
+    /// and User Playlists.
+    /// Storing only these main entities will not be enough to use the data outside of Tidal,
+    /// each data set stipulates a path for other entities to be saved.
+    /// They are:
+    /// * Favorite Artists: Artist, FavoriteArtist
+    /// * Favorite Albums: Album, AlbumTrack, Track, TrackArtistPath, AlbumArtistPath, FavoriteAlbum
+    /// * Favorite Tracks: TrackPath, FavoriteTrack
+    /// * Favorite Playlists: PlaylistPath, FavoritePlaylist
+    /// * User Playlists: PlaylistPath
+    ///
+    /// The PlaylistPath: Playlist, Creator, PlaylistTrack, TrackPath
+    /// The TrackPath: Track, TrackArtistPath, AlbumTrack, Album, AlbumArtistPath
+    /// The TrackArtistPath: TrackArtist, Artist
+    /// The AlbumArtistPath: AlbumArtist, Artist
+    /// 
+    /// </summary>
     public class SaveTidalDataOrchestrator
     {
         private readonly string _username;

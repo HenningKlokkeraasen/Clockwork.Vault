@@ -7,6 +7,10 @@ using OpenTidl.Models.Base;
 
 namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SaveCommands
 {
+    /// <summary>
+    /// Maps data from Tidal to DB model
+    /// and saves (inserts or updates) in DB
+    /// </summary>
     internal class SaveTidalEntityHandler
     {
         private readonly VaultContext _vaultContext;
