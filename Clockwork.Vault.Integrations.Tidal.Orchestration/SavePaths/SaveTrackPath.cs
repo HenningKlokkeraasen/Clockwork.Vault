@@ -28,17 +28,19 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SavePaths
             // Tracks
             var (tracks, tracksLog) = _saveTidalEntityHandler.MapAndUpsertTracks(tidalTracks);
             log.AddRange(tracksLog);
-            log.AddRange(tracks.Select(t => $"\tSaved track {t.Title}"));
+            log.AddRange(tracks.Select(t => $"Saved track {t.Title}"));
 
             foreach (var track in tidalTracks)
             {
                 // Album, Artist(s) of the Album, and AlbumArtists
                 var saveAlbumTrackPath = new SaveAlbumWithArtistsPathExtended(_saveTidalEntityHandler, _tidalIntegrator, _vaultContext);
-                await saveAlbumTrackPath.Run(insertedAlbums, insertedArtists, track.Album);
+                var (_, saveAlbumTrackLog) = await saveAlbumTrackPath.Run(insertedAlbums, insertedArtists, track.Album);
+                log.AddRange(saveAlbumTrackLog);
                 
                 // Artist(s) of the Track and TrackArtists
                 var saveTrackArtistPath = new SaveTrackArtistPath(_saveTidalEntityHandler);
-                saveTrackArtistPath.Run(track, insertedArtists);
+                var saveTrackArtistLog = saveTrackArtistPath.Run(track, insertedArtists);
+                log.AddRange(saveTrackArtistLog);
 
                 // one-to-many table AlbumTracks
                 _saveTidalEntityHandler.MapAndInsertAlbumTrack(track);

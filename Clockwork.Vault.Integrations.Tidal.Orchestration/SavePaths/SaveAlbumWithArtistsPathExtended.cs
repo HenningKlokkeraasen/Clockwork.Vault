@@ -73,11 +73,11 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SavePaths
 
             if (existingRecord.Upc == null)
             {
-                log.Add($"    album does not have UPC in DB: {album.Id} {album.Title}");
+                log.Add($"\talbum does not have UPC in DB: {album.Id} {album.Title}");
                 return (false, log);
             }
 
-            log.Add("    album has UPC - will not get album or insert album or album artists");
+            log.Add("\talbum has UPC - will not get album or insert album or album artists");
 
             return (true, log);
         }

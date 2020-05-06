@@ -20,8 +20,10 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SavePaths
         /// </summary>
         protected bool SaveArtist(ICollection<ArtistModel> insertedArtists, ArtistModel item)
         {
-            if (insertedArtists == null || item == null)
-                throw new ArgumentException();
+            if (insertedArtists == null)
+                throw new ArgumentNullException(nameof(insertedArtists));
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
 
             if (insertedArtists.All(a => a.Id != item.Id))
             {

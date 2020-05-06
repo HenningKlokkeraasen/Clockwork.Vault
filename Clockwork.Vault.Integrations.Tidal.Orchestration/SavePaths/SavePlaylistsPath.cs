@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Clockwork.Vault.Dao;
 using Clockwork.Vault.Integrations.Tidal.Orchestration.SaveCommands;
@@ -24,13 +25,15 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SavePaths
 
         internal async Task<IList<string>> Run(IList<PlaylistModel> playlistsItems)
         {
-            var tracksLog = new List<string>();
+            var log = new List<string>();
 
             // Creators
             _saveTidalEntityHandler.MapAndInsertCreators(playlistsItems);
 
             // Playlists
-            var playlists = _saveTidalEntityHandler.MapAndInsertPlaylists(playlistsItems);
+            var playlists = _saveTidalEntityHandler.MapAndInsertPlaylists(playlistsItems)
+                .ToList();
+            log.AddRange(playlists.Select(p=> $"Saved playlist: {p.Title}"));
 
             var insertedAlbums = new List<AlbumModel>();
             var insertedArtists = new List<ArtistModel>();
@@ -41,14 +44,14 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SavePaths
 
                 // Tracks with Albums and Artist(s)
                 var saveTrackPath = new SaveTrackPath(_saveTidalEntityHandler, _tidalIntegrator, _vaultContext);
-                var (tracks, log) = await saveTrackPath.Run(tracksResult.Items, insertedAlbums, insertedArtists);
-                tracksLog.AddRange(log);
+                var (tracks, tracksLog) = await saveTrackPath.Run(tracksResult.Items, insertedAlbums, insertedArtists);
+                log.AddRange(tracksLog);
 
                 // PlaylistTracks
                 _saveTidalEntityHandler.MapAndInsertPlaylistTracks(tracks, playlist);
             }
 
-            return tracksLog;
+            return log;
         }
     }
 }
