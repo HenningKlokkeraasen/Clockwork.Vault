@@ -19,73 +19,31 @@ namespace Clockwork.Vault.Integrations.Tidal
             _client = MakeClient(token);
         }
 
+        // API methods using the session (have to be authenticated)
+
         public async Task<OpenTidlSession> LoginUserAsync(string username, string password)
         {
-            OpenTidlSession session;
+            OpenTidlSession session = null;
             try
             {
                 session = await _client.LoginWithUsername(username, password);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                Log.Error(e);
-                return null;
+                LogEx(e);
             }
             return session;
         }
 
-        public async Task<AlbumModel> GetAlbum(int id)
-        {
-            AlbumModel album;
-            try
-            {
-                album = await _client.GetAlbum(id);
-            }
-            catch (Exception e)
-            {
-                var errorMessage = e.InnerException?.Message ?? e.Message;
-                Console.WriteLine(errorMessage);
-                Log.Error(errorMessage);
-                return null;
-            }
-            return album;
-        }
+        // API methods using the client (no need for authentication)
 
-        public async Task<JsonList<TrackModel>> GetAlbumTracks(int albumId)
-        {
-            JsonList<TrackModel> tracks;
-            try
-            {
-                tracks = await _client.GetAlbumTracks(albumId);
-            }
-            catch (Exception e)
-            {
-                var errorMessage = e.InnerException?.Message ?? e.Message;
-                Console.WriteLine(errorMessage);
-                Log.Error(errorMessage);
-                return null;
-            }
+        public async Task<AlbumModel> GetAlbum(int id) => await TryGet(_client.GetAlbum, id);
 
-            return tracks;
-        }
+        public async Task<JsonList<TrackModel>> GetAlbumTracks(int albumId) => await TryGet(_client.GetAlbumTracks, albumId);
 
-        public async Task<TrackModel> GetTrack(int id)
-        {
-            TrackModel track;
-            try
-            {
-                track = await _client.GetTrack(id);
-            }
-            catch (Exception e)
-            {
-                var errorMessage = e.InnerException?.Message ?? e.Message;
-                Console.WriteLine(errorMessage);
-                Log.Error(errorMessage);
-                return null;
-            }
-            return track;
-        }
+        public async Task<TrackModel> GetTrack(int id) => await TryGet(_client.GetTrack, id);
+
+        // Private
 
         private static OpenTidlClient MakeClient(string token)
         {
@@ -94,5 +52,21 @@ namespace Clockwork.Vault.Integrations.Tidal
                 defaultConfig.ClientUniqueKey, defaultConfig.ClientVersion, defaultConfig.DefaultCountryCode);
             return new OpenTidlClient(clientConfiguration);
         }
+
+        private static async Task<T> TryGet<T>(Func<int, Task<T>> func, int parameter)
+        {
+            var entity = default(T);
+            try
+            {
+                entity = await func(parameter);
+            }
+            catch (Exception e)
+            {
+                LogEx(e);
+            }
+            return entity;
+        }
+
+        private static void LogEx(Exception e) => Log.Error(e.InnerException?.Message ?? e.Message);
     }
 }

@@ -43,7 +43,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SaveCommands
             return SaveChangesToDbAndReturnDao(playlists);
         }
 
-        internal (IEnumerable<TidalTrack>, IEnumerable<string>) MapAndUpsertTracks(IEnumerable<TrackModel> tidalTracks)
+        internal (IList<TidalTrack>, IEnumerable<string>) MapAndUpsertTracks(IEnumerable<TrackModel> tidalTracks)
         {
             var log = new List<string>();
 
@@ -58,7 +58,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SaveCommands
             var distinctTracks = trackGroups
                 .Select(group => group.First())
                 .ToList();
-
+            
             distinctTracks.ForEach(t => TidalDbInserter.UpsertTrack(_vaultContext, t));
 
             return SaveChangesToDbAndReturnDao((distinctTracks, log));
@@ -81,17 +81,6 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SaveCommands
         }
 
         // Many-to-many entities
-
-        internal void MapAndInsertAlbumTracks(IEnumerable<TrackModel> tidalTracks, AlbumModel tidalAlbum)
-        {
-            var position = 1;
-            var albumTracks = tidalTracks.Select(i => TidalDaoMapper.MapTidalAlbumTrackDao(i.Id, tidalAlbum.Id, position++))
-                .ToList();
-
-            albumTracks.ForEach(pt => TidalDbInserter.InsertAlbumTrack(_vaultContext, pt));
-
-            _vaultContext.SaveChanges();
-        }
 
         internal void MapAndInsertPlaylistTracks(IEnumerable<TidalTrack> tidalTracks, TidalPlaylist tidalPlaylist)
         {
@@ -139,6 +128,27 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SaveCommands
                     TidalDbInserter.InsertTrackArtist(_vaultContext, trackArtist);
             }
 
+            _vaultContext.SaveChanges();
+        }
+
+        // One-to-many entities
+
+        internal void MapAndInsertAlbumTracks(IEnumerable<TrackModel> tidalTracks, AlbumModel tidalAlbum)
+        {
+            var position = 1;
+            var albumTracks = tidalTracks.Select(i => TidalDaoMapper.MapTidalAlbumTrackDao(i.Id, tidalAlbum.Id, position++))
+                .ToList();
+
+            albumTracks.ForEach(pt => TidalDbInserter.InsertAlbumTrack(_vaultContext, pt));
+
+            _vaultContext.SaveChanges();
+        }
+
+        // Used when track position on the album is unknown
+        internal void MapAndInsertAlbumTrack(TrackModel track)
+        {
+            var albumTrack = TidalDaoMapper.MapTidalAlbumTrackDao(track.Id, track.Album.Id, 0);
+            TidalDbInserter.InsertAlbumTrack(_vaultContext, albumTrack);
             _vaultContext.SaveChanges();
         }
 
