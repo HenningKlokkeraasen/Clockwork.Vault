@@ -16,9 +16,12 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SavePaths
             var log = new List<string>();
 
             // The main artist of the track
-            var savedArtist = SaveArtist(insertedArtists, track.Artist);
-            if (savedArtist)
-                log.Add($"Saved artist {track.Artist.Name}");
+            if (track.Artist != null)
+            {
+                var savedArtist = SaveArtist(insertedArtists, track.Artist);
+                if (savedArtist)
+                    log.Add($"Saved artist {track.Artist.Name}");
+            }
 
             // The artists of the track if multiple
             foreach (var trackArtist in track.Artists)

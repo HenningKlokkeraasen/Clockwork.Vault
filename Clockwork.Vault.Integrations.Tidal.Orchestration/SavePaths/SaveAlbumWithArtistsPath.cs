@@ -12,24 +12,24 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SavePaths
         {
         }
 
-        internal IList<string> Run(AlbumModel item, ICollection<ArtistModel> insertedArtists)
+        internal IList<string> Run(AlbumModel album, ICollection<ArtistModel> insertedArtists)
         {
             var log = new List<string>();
             
             // The album
-            _saveTidalEntityHandler.MapAndUpsertAlbum(item);
-            log.Add($"Saved album {item.Title}");
+            _saveTidalEntityHandler.MapAndUpsertAlbum(album);
+            log.Add($"Saved album {album.Title}");
 
             // The main artist of the album
-            if (item.Artist != null)
+            if (album.Artist != null)
             {
-                var savedArtist = SaveArtist(insertedArtists, item.Artist);
+                var savedArtist = SaveArtist(insertedArtists, album.Artist);
                 if (savedArtist)
-                    log.Add($"\tSaved artist {item.Artist.Name}");
+                    log.Add($"\tSaved artist {album.Artist.Name}");
             }
 
             // The artists of the album if multiple
-            foreach (var albumArtist in item.Artists ?? Enumerable.Empty<ArtistModel>())
+            foreach (var albumArtist in album.Artists ?? Enumerable.Empty<ArtistModel>())
             {
                 var savedArtistN = SaveArtist(insertedArtists, albumArtist);
                 if (savedArtistN)
@@ -37,7 +37,7 @@ namespace Clockwork.Vault.Integrations.Tidal.Orchestration.SavePaths
             }
 
             // many-to-many table AlbumArtists
-            _saveTidalEntityHandler.MapAndInsertAlbumArtists(item);
+            _saveTidalEntityHandler.MapAndInsertAlbumArtists(album);
 
             return log;
         }
