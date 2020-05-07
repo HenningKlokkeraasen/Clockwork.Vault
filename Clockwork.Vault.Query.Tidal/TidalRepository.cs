@@ -45,7 +45,7 @@ namespace Clockwork.Vault.Query.Tidal
         internal IList<TidalPlaylistTrack> GetTracks(TidalPlaylist playlist) =>
             _vaultContext.TidalPlaylistTracks.Where(at => at.PlaylistId == playlist.Uuid).ProjectToList();
 
-        internal IList<TidalAlbum> GetAlbums(TidalArtist artist)
+        internal IList<TidalAlbum> GetReleases(TidalArtist artist)
         {
             var albumArtists = _vaultContext.TidalAlbumArtists.Where(aa => aa.ArtistId == artist.Id);
             var albumIds = albumArtists.Select(a => a.AlbumId).Distinct();

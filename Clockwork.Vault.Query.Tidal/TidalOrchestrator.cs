@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Clockwork.Vault.Dao.Models.Tidal;
+using Clockwork.Vault.Query.Tidal.Core;
 using Clockwork.Vault.Query.Tidal.ViewModels;
 using Clockwork.Vault.Query.Tidal.ViewModels.Grouped;
 
@@ -48,7 +49,6 @@ namespace Clockwork.Vault.Query.Tidal
                 return null;
 
             var trackArtists = _tidalRepository.GetArtists(track)
-                .Select(a => a.Artist)
                 .ToList();
 
             var album = _tidalRepository.GetAlbum(track);
@@ -58,7 +58,8 @@ namespace Clockwork.Vault.Query.Tidal
             return new TidalTrackExpanded
             {
                 Track = track,
-                Artists = trackArtists,
+                MainArtists = trackArtists.SelectMainArtists().ToList(),
+                FeaturedArtists = trackArtists.SelectFeaturedArtists().ToList(),
                 Album = album,
                 Playlists = playlists
             };
@@ -71,7 +72,6 @@ namespace Clockwork.Vault.Query.Tidal
                 return null;
 
             var albumArtists = _tidalRepository.GetArtists(album)
-                .Select(a => a.Artist)
                 .ToList();
 
             var tracks = _tidalRepository.GetTracks(album)
@@ -82,7 +82,8 @@ namespace Clockwork.Vault.Query.Tidal
             return new TidalAlbumExpanded
             {
                 Album = album,
-                Artists = albumArtists,
+                MainArtists = albumArtists.SelectMainArtists().ToList(),
+                FeaturedArtists = albumArtists.SelectFeaturedArtists().ToList(),
                 Tracks = tracks
             };
         }
@@ -114,12 +115,12 @@ namespace Clockwork.Vault.Query.Tidal
             if (artist == null)
                 return null;
 
-            var albums = _tidalRepository.GetAlbums(artist)
+            var releases = _tidalRepository.GetReleases(artist)
                 .OrderBy(a => a.ReleaseDate)
                 .ToList();
 
             var artistTracks = _tidalRepository.GetTracks(artist);
-            var albumTracks = albums.SelectMany(a => _tidalRepository.GetTracks(a));
+            var albumTracks = releases.SelectMany(a => _tidalRepository.GetTracks(a));
             var albumTrackIds = albumTracks.Select(at => at.TrackId);
             var nonAlbumTracks = artistTracks.Where(t => !albumTrackIds.Contains(t.Id))
                 .ToList();
@@ -127,7 +128,10 @@ namespace Clockwork.Vault.Query.Tidal
             return new TidalArtistExpanded
             {
                 Artist = artist,
-                Albums = albums,
+                Albums = releases.SelectAlbums().ToList(),
+                EPs = releases.SelectEps().ToList(),
+                Singles = releases.SelectSingles().ToList(),
+                OtherReleases = releases.SelectReleasesOfUndefinedType().ToList(),
                 NonAlbumTracks = nonAlbumTracks
             };
         }

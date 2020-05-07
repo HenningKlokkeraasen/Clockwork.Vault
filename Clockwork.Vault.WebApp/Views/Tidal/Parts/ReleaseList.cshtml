@@ -1,0 +1,14 @@
+﻿@model Tuple<string, ICollection<Clockwork.Vault.Dao.Models.Tidal.TidalAlbum>>
+
+@if (!Model.Item2.Any())
+{
+    return;
+}
+
+<h2>@Model.Item1</h2>
+<ul>
+    @foreach (var album in Model.Item2)
+    {
+        <li>@album.ReleaseDate.Year @Html.ActionLink(album.Title, "Albums", "Tidal", new { id = album.Id }, null)</li>
+    }
+</ul>

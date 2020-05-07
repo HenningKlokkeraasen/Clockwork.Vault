@@ -8,6 +8,9 @@ namespace Clockwork.Vault.Query.Tidal.ViewModels
     {
         public TidalArtist Artist { get; set; }
         public ICollection<TidalAlbum> Albums { get; set; }
+        public ICollection<TidalAlbum> EPs { get; set; }
+        public ICollection<TidalAlbum> Singles { get; set; }
+        public ICollection<TidalAlbum> OtherReleases { get; set; }
         public ICollection<TidalTrack> NonAlbumTracks { get; set; }
     }
 }

@@ -203,6 +203,8 @@
     <Content Include="Views\Tidal\Parts\FavoritesAnchor.cshtml" />
     <Content Include="Views\TidalDataImport\Index.cshtml" />
     <Content Include="Views\TidalDataSanitize\Index.cshtml" />
+    <Content Include="Views\Tidal\Parts\ArtistList.cshtml" />
+    <Content Include="Views\Tidal\Parts\ReleaseList.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

@@ -1,4 +1,5 @@
-﻿@model Clockwork.Vault.Query.Tidal.ViewModels.TidalArtistExpanded
+﻿@using Clockwork.Vault.Dao.Models.Tidal
+@model Clockwork.Vault.Query.Tidal.ViewModels.TidalArtistExpanded
 
 @Html.Partial("Breadcrumbs", new List<MvcHtmlString>
 {
@@ -7,21 +8,10 @@
 
 <h1>@Model.Artist.Name</h1>
 
-<h2>Albums:</h2>
-<ul>
-    @foreach (var album in Model.Albums.Where(a => a.Type == "ALBUM"))
-    {
-        <li>@album.ReleaseDate.Year @Html.ActionLink(album.Title, "Albums", new { id = album.Id })</li>
-    }
-</ul>
-
-<h2>Other:</h2>
-<ul>
-    @foreach (var album in Model.Albums.Where(a => a.Type != "ALBUM"))
-    {
-        <li>@album.ReleaseDate.Year @Html.ActionLink(album.Title, "Albums", new { id = album.Id }) (@album.Type)</li>
-    }
-</ul>
+@Html.Partial("Parts/ReleaseList", new Tuple<string, ICollection<TidalAlbum>>("Albums:", Model.Albums))
+@Html.Partial("Parts/ReleaseList", new Tuple<string, ICollection<TidalAlbum>>("EPs:", Model.EPs))
+@Html.Partial("Parts/ReleaseList", new Tuple<string, ICollection<TidalAlbum>>("Singles:", Model.Singles))
+@Html.Partial("Parts/ReleaseList", new Tuple<string, ICollection<TidalAlbum>>("Other Releases:", Model.OtherReleases))
 
 <h2>Non-Album Tracks:</h2>
 <ul>

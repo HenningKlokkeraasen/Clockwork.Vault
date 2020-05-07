@@ -33,16 +33,18 @@ p, h1, h2, h3, h4, h5, h6, ul, ol, menu {
     margin: 3px;
 }
 
-menu#main-menu {
-    padding: 0;
-}
-    menu#main-menu ul {
+    menu#main-menu {
         padding: 0;
     }
+
+        menu#main-menu ul {
+            padding: 0;
+        }
+
         menu#main-menu > ul > li {
             list-style-type: none;
         }
-        
+
             menu#main-menu > ul > li > ul > li {
                 list-style-type: none;
                 margin-left: 10px;
@@ -54,6 +56,17 @@ menu#main-menu {
 
 table th {
     text-align: left;
+}
+
+table td {
+    vertical-align: top;
+}
+
+table tr:nth-child(odd) td {
+    background: rgb(202, 202, 202);
+}
+table tr:nth-child(even) td {
+    background: rgb(162, 162, 162);
 }
 
 /*

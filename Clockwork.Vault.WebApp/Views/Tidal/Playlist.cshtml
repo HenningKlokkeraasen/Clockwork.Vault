@@ -15,6 +15,7 @@
         <tr>
             <th>#</th>
             <th>Artist(s)</th>
+            <th>Featured artist(s)</th>
             <th>Track</th>
             <th>Album</th>
         </tr>
@@ -25,10 +26,20 @@
             <tr>
                 <td>@trackExpanded.Item1</td>
                 <td>
-                    @foreach (var artist in trackExpanded.Item2.Artists)
+                    @foreach (var artist in trackExpanded.Item2.MainArtists)
                     {
                         @Html.ActionLink(artist.Name, "Artists", new { id = artist.Id })
-                        if (trackExpanded.Item2.Artists.IndexOf(artist) < trackExpanded.Item2.Artists.Count - 1)
+                        if (trackExpanded.Item2.MainArtists.IndexOf(artist) < trackExpanded.Item2.MainArtists.Count - 1)
+                        {
+                            @:,
+                        }
+                    }
+                </td>
+                <td>
+                    @foreach (var artist in trackExpanded.Item2.FeaturedArtists)
+                    {
+                        @Html.ActionLink(artist.Name, "Artists", new { id = artist.Id })
+                        if (trackExpanded.Item2.FeaturedArtists.IndexOf(artist) < trackExpanded.Item2.FeaturedArtists.Count - 1)
                         {
                             @:,
                         }

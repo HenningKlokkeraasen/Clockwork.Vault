@@ -1,4 +1,5 @@
-﻿@model Clockwork.Vault.Query.Tidal.ViewModels.TidalAlbumExpanded
+﻿@using Clockwork.Vault.Dao.Models.Tidal
+@model Clockwork.Vault.Query.Tidal.ViewModels.TidalAlbumExpanded
 
 @Html.Partial("Breadcrumbs", new List<MvcHtmlString>
 {
@@ -7,13 +8,8 @@
 
 <h1>@Model.Album.Title</h1>
 
-<h2>Artists:</h2>
-<ul>
-    @foreach (var artist in Model.Artists)
-    {
-        <li>@Html.ActionLink(artist.Name, "Artists", new { id = artist.Id })</li>
-    }
-</ul>
+@Html.Partial("Parts/ArtistList", new Tuple<string, ICollection<TidalArtist>>("By:", Model.MainArtists))
+@Html.Partial("Parts/ArtistList", new Tuple<string, ICollection<TidalArtist>>("Featuring:", Model.FeaturedArtists))
 
 <h2>Tracks:</h2>
 <ol>
